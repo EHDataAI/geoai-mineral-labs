@@ -1,0 +1,15 @@
+name: geoai-mineral
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  # Validated runtime for LAB 00
+  - python=3.12
+
+  # Python package management
+  - pip
+
+  # Development workflow
+  - pre-commit=4.6.*
