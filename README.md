@@ -29,7 +29,7 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 
 | Lab    | Topic                             | Status      |
 | ------ | --------------------------------- | ----------- |
-| LAB 00 | Engineering & GeoAI Environment   | In progress |
+| LAB 00 | [Engineering & GeoAI Environment](labs/lab00_engineering_setup/README.md) | Completed |
 | LAB 01 | Geospatial Python Foundations     | Planned     |
 | LAB 02 | Spatial Exploratory Data Analysis | Planned     |
 | LAB 03 | Spatial Cross-Validation          | Planned     |
@@ -115,6 +115,8 @@ This allows each dependency to be associated with a concrete technical requireme
 
 The repository is currently under active development.
 
-LAB 00 establishes the engineering, reproducibility, security, and repository foundations required by the subsequent GeoAI laboratories.
+LAB 00 — Engineering & GeoAI Environment has been completed and documents the repository engineering, security, reproducibility, packaging, and Git/GitHub workflow foundations.
+
+Development will continue with LAB 01 — Geospatial Python Foundations, where the first scientific and geospatial dependencies will be introduced.
 
 The project should be interpreted as an evolving technical laboratory and portfolio rather than a production mineral exploration platform.
