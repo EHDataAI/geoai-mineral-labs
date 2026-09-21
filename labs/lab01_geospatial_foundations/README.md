@@ -277,9 +277,9 @@ Advanced or differentiating extensions remain `RESERVED`.
 
 LAB 01 will be considered technically complete when:
 
-* [ ] dependency compatibility has been assessed;
-* [ ] the minimal geospatial environment has been installed;
-* [ ] environment recreation has been validated;
+* [X] dependency compatibility has been assessed;
+* [X] the minimal geospatial environment has been installed;
+* [X] environment recreation has been validated;
 * [ ] GeoPandas can read and manipulate vector geometries;
 * [ ] CRS inspection and reprojection have been demonstrated;
 * [ ] geometry validation has been demonstrated;
@@ -320,6 +320,6 @@ For that reason, LAB 01 emphasizes spatial correctness, validation, and reproduc
 
 ## Current status
 
-**Status: Design and dependency assessment**
+**Status: Environment qualified — ready for geospatial foundations**
 
 No geospatial scientific dependencies should be considered validated until compatibility testing has been completed.
