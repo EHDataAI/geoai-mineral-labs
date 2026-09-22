@@ -43,6 +43,20 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 
 The roadmap may evolve as the laboratories incorporate new datasets, methods, and evidence.
 
+## Featured portfolio walkthrough
+
+### LAB 01A — Coordinate Systems for Mineral Exploration
+
+[Open the recruiter-facing notebook](labs/lab01_geospatial_foundations/01a_coordinate_foundations.ipynb)
+
+LAB 01A demonstrates how Coordinate Reference Systems and measurement units affect spatial feature engineering in mineral exploration.
+
+Using synthetic locations in northern Chile, the walkthrough compares geographic, projected UTM, and geodesic distance calculations and shows why a numerically valid spatial calculation may still be geoscientifically incorrect.
+
+The implementation is supported by reusable CRS utilities and automated pytest validation.
+
+**Current evidence:** 13 automated CRS tests passing.
+
 ## Repository structure
 
 ```text
@@ -107,7 +121,11 @@ Initial LAB 00 environment:
 * pre-commit
 * Gitleaks
 
-Scientific, geospatial, machine-learning, and deep-learning dependencies will be introduced incrementally rather than installing the complete stack at once.
+LAB 01 has introduced the first validated scientific and geospatial dependency layer, including NumPy, Pandas, GeoPandas, Shapely, PyProj, Pyogrio, Rasterio, Matplotlib, IPyKernel, and pytest.
+
+Machine-learning, deep-learning, and other advanced dependencies will continue to be introduced incrementally rather than installing the complete future stack at once.
+
+This allows each dependency to remain associated with a concrete technical requirement and a reproducible laboratory milestone.
 
 This allows each dependency to be associated with a concrete technical requirement.
 
@@ -117,6 +135,10 @@ The repository is currently under active development.
 
 LAB 00 — Engineering & GeoAI Environment has been completed and documents the repository engineering, security, reproducibility, packaging, and Git/GitHub workflow foundations.
 
-Development will continue with LAB 01 — Geospatial Python Foundations, where the first scientific and geospatial dependencies will be introduced.
+LAB 01 — Geospatial Python Foundations is currently in progress.
+
+LAB 01A — Coordinate Systems for Mineral Exploration has been completed and validated. It establishes CRS-aware distance analysis, automatic UTM selection, geodesic cross-validation, reusable CRS utilities, automated testing, and recruiter-facing technical communication.
+
+Development will continue with the remaining LAB 01 vector, geometry, raster, and spatial-integration foundations before progressing to spatial EDA and spatial cross-validation.
 
 The project should be interpreted as an evolving technical laboratory and portfolio rather than a production mineral exploration platform.
