@@ -27,19 +27,19 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 
 ## Laboratory roadmap
 
-| Lab    | Topic                             | Status      |
-| ------ | --------------------------------- | ----------- |
-| LAB 00 | [Engineering & GeoAI Environment](labs/lab00_engineering_setup/README.md) | Completed |
-| LAB 01 | Geospatial Python Foundations     | Planned     |
-| LAB 02 | Spatial Exploratory Data Analysis | Planned     |
-| LAB 03 | Spatial Cross-Validation          | Planned     |
-| LAB 04 | Geochemical CoDA                  | Planned     |
-| LAB 05 | Mineral Prospectivity Mapping     | Planned     |
-| LAB 06 | Explainable GeoAI                 | Planned     |
-| LAB 07 | Uncertainty Quantification        | Planned     |
-| LAB 08 | Remote Sensing                    | Planned     |
-| LAB 09 | Deep Learning for GeoAI           | Planned     |
-| LAB 10 | Graph & Multimodal GeoAI          | Planned     |
+| Lab    | Topic                                                                        | Status      |
+| ------ | ---------------------------------------------------------------------------- | ----------- |
+| LAB 00 | [Engineering & GeoAI Environment](labs/lab00_engineering_setup/README.md)    | Completed   |
+| LAB 01 | [Geospatial Python Foundations](labs/lab01_geospatial_foundations/README.md) | In progress |
+| LAB 02 | Spatial Exploratory Data Analysis                                            | Planned     |
+| LAB 03 | Spatial Cross-Validation                                                     | Planned     |
+| LAB 04 | Geochemical CoDA                                                             | Planned     |
+| LAB 05 | Mineral Prospectivity Mapping                                                | Planned     |
+| LAB 06 | Explainable GeoAI                                                            | Planned     |
+| LAB 07 | Uncertainty Quantification                                                   | Planned     |
+| LAB 08 | Remote Sensing                                                               | Planned     |
+| LAB 09 | Deep Learning for GeoAI                                                      | Planned     |
+| LAB 10 | Graph & Multimodal GeoAI                                                     | Planned     |
 
 The roadmap may evolve as the laboratories incorporate new datasets, methods, and evidence.
 
@@ -112,22 +112,20 @@ Credentials, API keys, private keys, and private datasets must never be committe
 
 Initial LAB 00 environment:
 
-* Windows 11 x64
-* Git
-* GitHub CLI
-* Conda
-* Python 3.12
-* VS Code
-* pre-commit
-* Gitleaks
+* Windows 11 x64;
+* Git;
+* GitHub CLI;
+* Conda;
+* Python 3.12;
+* VS Code;
+* pre-commit;
+* Gitleaks.
 
 LAB 01 has introduced the first validated scientific and geospatial dependency layer, including NumPy, Pandas, GeoPandas, Shapely, PyProj, Pyogrio, Rasterio, Matplotlib, IPyKernel, and pytest.
 
 Machine-learning, deep-learning, and other advanced dependencies will continue to be introduced incrementally rather than installing the complete future stack at once.
 
 This allows each dependency to remain associated with a concrete technical requirement and a reproducible laboratory milestone.
-
-This allows each dependency to be associated with a concrete technical requirement.
 
 ## Project status
 
