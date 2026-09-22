@@ -25,3 +25,6 @@ dependencies:
   # Visualization and interactive development
   - matplotlib-base=3.11.*
   - ipykernel=7.3.*
+
+  # Testing
+  - pytest=9.1.*
