@@ -135,7 +135,7 @@ LAB 00 — Engineering & GeoAI Environment has been completed and documents the 
 
 LAB 01 — Geospatial Python Foundations is currently in progress.
 
-LAB 01A — Coordinate Systems for Mineral Exploration has been completed and validated. It establishes CRS-aware distance analysis, automatic UTM selection, geodesic cross-validation, reusable CRS utilities, automated testing, and recruiter-facing technical communication.
+LAB 01A — Coordinate Systems for Mineral Exploration has been completed and validated. It establishes CRS-aware distance analysis, automatic UTM selection, independent geodesic validation, reusable CRS utilities, automated testing, and recruiter-facing technical communication.
 
 Development will continue with the remaining LAB 01 vector, geometry, raster, and spatial-integration foundations before progressing to spatial EDA and spatial cross-validation.
 
