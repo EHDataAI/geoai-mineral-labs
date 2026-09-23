@@ -31,7 +31,7 @@ LAB 01A currently demonstrates:
 Current automated CRS validation:
 
 ```text
-13 tests passing
+15 tests passing
 ```
 
 Remaining LAB 01 topics include geometry validation, spatial joins, buffering, overlays, raster foundations, raster sampling, and raster/vector integration.
@@ -199,6 +199,37 @@ interpretation
 before spatial variables are used in machine-learning pipelines.
 
 ---
+
+### LAB 01B — Crossing UTM Zones in Spatial Analysis
+
+[Open the recruiter-facing notebook](01b_cross_zone_crs.ipynb)
+
+**Problem:** projected coordinates expressed in metres are not automatically comparable when they belong to different Coordinate Reference Systems.
+
+The walkthrough demonstrates:
+
+- UTM Zone 18S / EPSG:32718 identification;
+- UTM Zone 19S / EPSG:32719 identification;
+- independent WGS84 geodesic distance;
+- use of one common projected CRS for joint spatial analysis;
+- an intentionally invalid mixed-CRS calculation;
+- numerical comparison of valid and invalid approaches;
+- implications for mineral-exploration feature engineering;
+- automated regression testing.
+
+**Key finding:** using metres does not guarantee spatial comparability. Joint projected operations require geometries to share a compatible spatial reference system.
+
+### LAB 01B evidence
+
+| Evidence | Result |
+| --- | --- |
+| WGS84 geodesic reference | ~38.594 km |
+| Common CRS — EPSG:32719 | ~38.619 km |
+| Common CRS relative difference | ~0.0635% |
+| Invalid mixed UTM 18S / 19S result | ~540.215 km |
+| Invalid mixed-CRS relative difference | ~1299.72% |
+| Cross-zone automated tests | 2 passing |
+| Total CRS-related automated tests | 15 passing |
 
 ## Scope
 
