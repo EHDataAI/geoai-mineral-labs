@@ -8,23 +8,15 @@ dependencies:
   - python=3.12
   - pip
   - pre-commit=4.6.*
-
-  # Scientific foundations
   - numpy=2.5.*
   - pandas=3.0.*
-
-  # Geospatial vector stack
   - geopandas-base=1.1.*
   - shapely=2.1.*
   - pyproj=3.8.*
   - pyogrio=0.13.*
-
-  # Geospatial raster stack
   - rasterio=1.5.*
-
-  # Visualization and interactive development
   - matplotlib-base=3.11.*
   - ipykernel=7.3.*
-
-  # Testing
+  - nbformat=5.*
+  - nbclient=0.10.*
   - pytest=9.1.*
