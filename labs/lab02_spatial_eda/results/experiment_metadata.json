@@ -1,0 +1,48 @@
+{
+  "crs": "EPSG:32719",
+  "lab": "LAB02 Spatial EDA",
+  "monte_carlo": {
+    "first_seed": 12345,
+    "grid_resolutions_m": [
+      5000,
+      10000,
+      20000
+    ],
+    "independent_realizations": 400,
+    "last_seed": 12744,
+    "offset_fractions": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": 0.5,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": 0.5
+      },
+      {
+        "x": 0.5,
+        "y": 0.5
+      }
+    ],
+    "offsets_per_resolution": 4,
+    "total_grid_evaluations": 4800
+  },
+  "nearest_neighbour_robustness": {
+    "campaign_denser_rate": 1.0,
+    "median_campaign_regional_ratio": 0.26055010746544194,
+    "p95_campaign_regional_ratio": 0.28446680586787576
+  },
+  "observations_per_realization": 800,
+  "primary_descriptive_resolution_m": 10000,
+  "sampling_components": {
+    "campaign": 300,
+    "regional": 500
+  },
+  "schema_version": 1,
+  "synthetic_data": true,
+  "theoretical_signal_max": 90.0
+}

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import math
+from pathlib import Path
 
 import pandas as pd
 
@@ -36,6 +38,28 @@ N_REALIZATIONS = 400
 THEORETICAL_SIGNAL_MAX = 90.0
 
 WILSON_Z_95 = 1.959963984540054
+
+PRIMARY_CELL_SIZE_M = 10000.0
+
+RESULTS_DIR = (
+    Path(__file__).resolve().parent
+    / "results"
+)
+
+RESOLUTION_SUMMARY_PATH = (
+    RESULTS_DIR
+    / "resolution_summary.csv"
+)
+
+PER_REALIZATION_PATH = (
+    RESULTS_DIR
+    / "monte_carlo_by_realization.csv"
+)
+
+METADATA_PATH = (
+    RESULTS_DIR
+    / "experiment_metadata.json"
+)
 
 
 def wilson_interval(
@@ -291,6 +315,255 @@ def summarize_by_realization(
     )
 
 
+def build_resolution_summary(
+    per_seed: pd.DataFrame,
+) -> pd.DataFrame:
+    records: list[dict[str, float | int]] = []
+
+    for cell_size_m in GRID_SIZES_M:
+        group = per_seed[
+            per_seed["cell_size_m"]
+            == cell_size_m
+        ]
+
+        n = len(group)
+
+        if n != N_REALIZATIONS:
+            raise ValueError(
+                "Unexpected number of independent "
+                "realizations for cell size "
+                f"{cell_size_m}: {n}"
+            )
+
+        all_match_count = int(
+            group["all_offsets_match"].sum()
+        )
+
+        all_match_ci = wilson_interval(
+            all_match_count,
+            n,
+        )
+
+        density_separated_count = int(
+            group[
+                "true_hotspot_not_densest_all_offsets"
+            ].sum()
+        )
+
+        density_separated_ci = wilson_interval(
+            density_separated_count,
+            n,
+        )
+
+        median_signal = float(
+            group[
+                "median_true_hotspot_mean"
+            ].median()
+        )
+
+        records.append(
+            {
+                "cell_size_m": cell_size_m,
+                "grid_km": cell_size_m / 1000.0,
+                "n_realizations": n,
+                "mean_offset_match_rate": float(
+                    group[
+                        "offset_match_rate"
+                    ].mean()
+                ),
+                "all_offsets_match_rate": (
+                    all_match_count / n
+                ),
+                "all_offsets_match_ci_low": (
+                    all_match_ci[0]
+                ),
+                "all_offsets_match_ci_high": (
+                    all_match_ci[1]
+                ),
+                "density_separation_rate": (
+                    density_separated_count / n
+                ),
+                "density_separation_ci_low": (
+                    density_separated_ci[0]
+                ),
+                "density_separation_ci_high": (
+                    density_separated_ci[1]
+                ),
+                "median_worst_normalized_distance": (
+                    float(
+                        group[
+                            "max_normalized_distance"
+                        ].median()
+                    )
+                ),
+                "p95_worst_normalized_distance": (
+                    float(
+                        group[
+                            "max_normalized_distance"
+                        ].quantile(0.95)
+                    )
+                ),
+                "median_true_hotspot_n": float(
+                    group[
+                        "median_true_hotspot_n"
+                    ].median()
+                ),
+                "median_true_hotspot_signal": (
+                    median_signal
+                ),
+                "peak_retention_rate": (
+                    median_signal
+                    / THEORETICAL_SIGNAL_MAX
+                ),
+            }
+        )
+
+    return pd.DataFrame(records)
+
+
+def build_experiment_metadata(
+    nn_results: pd.DataFrame,
+) -> dict[str, object]:
+    reference_samples = (
+        generate_synthetic_sampling(
+            seed=FIRST_SEED,
+        )
+    )
+
+    sampling_counts = (
+        reference_samples[
+            "sampling_component"
+        ]
+        .value_counts()
+        .sort_index()
+    )
+
+    campaign_denser = (
+        nn_results["nn_ratio"] < 1.0
+    )
+
+    return {
+        "schema_version": 1,
+        "lab": "LAB02 Spatial EDA",
+        "synthetic_data": True,
+        "crs": str(reference_samples.crs),
+        "observations_per_realization": int(
+            len(reference_samples)
+        ),
+        "sampling_components": {
+            str(component): int(count)
+            for component, count
+            in sampling_counts.items()
+        },
+        "monte_carlo": {
+            "first_seed": FIRST_SEED,
+            "last_seed": (
+                FIRST_SEED
+                + N_REALIZATIONS
+                - 1
+            ),
+            "independent_realizations": (
+                N_REALIZATIONS
+            ),
+            "grid_resolutions_m": [
+                int(value)
+                for value in GRID_SIZES_M
+            ],
+            "offset_fractions": [
+                {
+                    "x": offset_x,
+                    "y": offset_y,
+                }
+                for offset_x, offset_y
+                in OFFSET_FRACTIONS
+            ],
+            "offsets_per_resolution": len(
+                OFFSET_FRACTIONS
+            ),
+            "total_grid_evaluations": (
+                N_REALIZATIONS
+                * len(GRID_SIZES_M)
+                * len(OFFSET_FRACTIONS)
+            ),
+        },
+        "primary_descriptive_resolution_m": int(
+            PRIMARY_CELL_SIZE_M
+        ),
+        "theoretical_signal_max": (
+            THEORETICAL_SIGNAL_MAX
+        ),
+        "nearest_neighbour_robustness": {
+            "campaign_denser_rate": float(
+                campaign_denser.mean()
+            ),
+            "median_campaign_regional_ratio": (
+                float(
+                    nn_results[
+                        "nn_ratio"
+                    ].median()
+                )
+            ),
+            "p95_campaign_regional_ratio": (
+                float(
+                    nn_results[
+                        "nn_ratio"
+                    ].quantile(0.95)
+                )
+            ),
+        },
+    }
+
+
+def write_results(
+    per_seed: pd.DataFrame,
+    resolution_summary: pd.DataFrame,
+    metadata: dict[str, object],
+) -> None:
+    RESULTS_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    (
+        resolution_summary
+        .sort_values("cell_size_m")
+        .to_csv(
+            RESOLUTION_SUMMARY_PATH,
+            index=False,
+            encoding="utf-8",
+            float_format="%.6f",
+            lineterminator="\n",
+        )
+    )
+
+    (
+        per_seed
+        .sort_values(
+            [
+                "seed",
+                "cell_size_m",
+            ]
+        )
+        .to_csv(
+            PER_REALIZATION_PATH,
+            index=False,
+            encoding="utf-8",
+            float_format="%.6f",
+            lineterminator="\n",
+        )
+    )
+
+    METADATA_PATH.write_text(
+        json.dumps(
+            metadata,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def print_results(
     results: pd.DataFrame,
     nn_results: pd.DataFrame,
@@ -445,6 +718,22 @@ def main() -> None:
 
     per_seed = summarize_by_realization(
         results
+    )
+
+    resolution_summary = (
+        build_resolution_summary(
+            per_seed
+        )
+    )
+
+    metadata = build_experiment_metadata(
+        nn_results
+    )
+
+    write_results(
+        per_seed,
+        resolution_summary,
+        metadata,
     )
 
     print_results(

@@ -1,0 +1,4 @@
+cell_size_m,grid_km,n_realizations,mean_offset_match_rate,all_offsets_match_rate,all_offsets_match_ci_low,all_offsets_match_ci_high,density_separation_rate,density_separation_ci_low,density_separation_ci_high,median_worst_normalized_distance,p95_worst_normalized_distance,median_true_hotspot_n,median_true_hotspot_signal,peak_retention_rate
+5000.000000,5.000000,400,0.874375,0.630000,0.581659,0.675868,1.000000,0.990488,1.000000,0.000000,1.414214,2.000000,84.886447,0.943183
+10000.000000,10.000000,400,0.988125,0.957500,0.932998,0.973298,1.000000,0.990488,1.000000,0.000000,0.000000,7.500000,70.929118,0.788101
+20000.000000,20.000000,400,0.989375,0.957500,0.932998,0.973298,1.000000,0.990488,1.000000,0.000000,0.000000,31.500000,41.124309,0.456937

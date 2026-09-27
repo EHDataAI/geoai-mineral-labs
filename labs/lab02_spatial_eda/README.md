@@ -62,6 +62,30 @@ The baseline exploratory script is `labs/lab02_spatial_eda/02_spatial_eda.py`.
 
 The sensitivity experiment is `labs/lab02_spatial_eda/02b_resolution_sensitivity.py`.
 
+## Reproducible results pipeline
+
+The confirmatory Monte Carlo experiment persists its outputs under
+`labs/lab02_spatial_eda/results/`:
+
+- `resolution_summary.csv`: summary metrics by grid resolution;
+- `monte_carlo_by_realization.csv`: one record per independent
+  realization and grid resolution;
+- `experiment_metadata.json`: experiment design, CRS, sampling counts,
+  Monte Carlo configuration, and nearest-neighbour robustness metadata.
+
+The visual notebook does not contain manually transcribed Monte Carlo
+results. `02c_build_notebook.py` generates the notebook so that it reads
+the persisted CSV and JSON artifacts directly.
+
+`02d_execute_notebook.py` then executes and validates the notebook in a
+reproducible local kernel session. On Windows, the executor uses the
+selector event-loop policy required by ZeroMQ and requires CurveZMQ
+transport encryption over the local loopback interface.
+
+The resulting data lineage is:
+
+`simulation -> persisted results -> notebook -> figures and interpretation`
+
 ## Baseline result
 
 For seed `12345`:
@@ -176,6 +200,17 @@ These elements are deferred so that sampling-density and aggregation effects can
 - Full project test suite: **24 passed**
 - Monte Carlo realizations: 400
 - Grid evaluations: 4,800
+- Persisted realization-resolution records: 1,200
+- Resolution-summary records: 3
 - Primary descriptive resolution: 10 km x 10 km
+- Notebook cells: 28
+- Notebook code cells executed: 12 / 12
+- Notebook error outputs: 0
+- Embedded PNG figures: 5
+- Notebook schema validation: passed
+- Pre-commit validation: passed
+- Gitleaks secret scan: passed
 
-The computational core, automated tests, and experimental design are established before construction of the visual notebook.
+The computational core, Monte Carlo experiment, persisted result
+artifacts, notebook generation, notebook execution, and automated
+validation form a reproducible end-to-end analytical workflow.

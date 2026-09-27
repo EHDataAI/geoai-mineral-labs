@@ -60,7 +60,8 @@ distances and grid dimensions are expressed in metres.
 
     cells.append(
         new_code_cell(
-            """from pathlib import Path
+            """import json
+from pathlib import Path
 import sys
 
 import matplotlib.pyplot as plt
@@ -81,6 +82,12 @@ def find_repo_root(start: Path) -> Path:
 
 REPO_ROOT = find_repo_root(Path.cwd())
 SRC_DIR = REPO_ROOT / "src"
+LAB_DIR = (
+    REPO_ROOT
+    / "labs"
+    / "lab02_spatial_eda"
+)
+RESULTS_DIR = LAB_DIR / "results"
 
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
@@ -467,12 +474,9 @@ This illustrates the main methodological point:
 
 The primary resolution was not chosen from the baseline map.
 
-A separate confirmatory experiment used:
-
-- **400 independent spatial realizations**;
-- 3 grid resolutions;
-- 4 grid-origin configurations;
-- **4,800 grid evaluations**.
+A separate confirmatory Monte Carlo experiment is executed by
+`02b_resolution_sensitivity.py`. Its design metadata and summary
+statistics are persisted under `results/` and loaded below.
 
 Grid origin and resolution are repeated evaluations within each realization,
 not independent observations.
@@ -482,33 +486,148 @@ not independent observations.
 
     cells.append(
         new_code_cell(
-            """resolution_summary = pd.DataFrame(
+            """summary_path = (
+    RESULTS_DIR
+    / "resolution_summary.csv"
+)
+
+metadata_path = (
+    RESULTS_DIR
+    / "experiment_metadata.json"
+)
+
+if not summary_path.exists():
+    raise FileNotFoundError(
+        "Monte Carlo summary not found. "
+        "Run 02b_resolution_sensitivity.py first."
+    )
+
+if not metadata_path.exists():
+    raise FileNotFoundError(
+        "Experiment metadata not found. "
+        "Run 02b_resolution_sensitivity.py first."
+    )
+
+resolution_results = pd.read_csv(
+    summary_path
+)
+
+with metadata_path.open(
+    "r",
+    encoding="utf-8",
+) as handle:
+    experiment_metadata = json.load(handle)
+
+monte_carlo = experiment_metadata[
+    "monte_carlo"
+]
+
+expected_resolutions = {
+    int(value)
+    for value in monte_carlo[
+        "grid_resolutions_m"
+    ]
+}
+
+observed_resolutions = {
+    int(value)
+    for value in resolution_results[
+        "cell_size_m"
+    ]
+}
+
+if observed_resolutions != expected_resolutions:
+    raise ValueError(
+        "Resolution summary does not match "
+        "the experiment metadata."
+    )
+
+expected_realizations = int(
+    monte_carlo[
+        "independent_realizations"
+    ]
+)
+
+if not (
+    resolution_results["n_realizations"]
+    == expected_realizations
+).all():
+    raise ValueError(
+        "Resolution summary contains an "
+        "unexpected realization count."
+    )
+
+print(
+    "Independent spatial realizations:",
+    expected_realizations,
+)
+print(
+    "Grid resolutions:",
+    len(expected_resolutions),
+)
+print(
+    "Offsets per resolution:",
+    monte_carlo["offsets_per_resolution"],
+)
+print(
+    "Total grid evaluations:",
+    monte_carlo["total_grid_evaluations"],
+)
+
+all_offsets_label = (
+    "All "
+    + str(
+        monte_carlo[
+            "offsets_per_resolution"
+        ]
+    )
+    + " offsets matching (%)"
+)
+
+resolution_summary = pd.DataFrame(
     {
-        "Grid (km)": [5, 10, 20],
-        "Mean offset match rate (%)": [
-            87.4,
-            98.8,
-            98.9,
-        ],
-        "All 4 offsets matching (%)": [
-            63.0,
-            95.8,
-            95.8,
-        ],
-        "Median n at true hotspot": [
-            2.0,
-            7.5,
-            31.5,
-        ],
-        "Peak retention (%)": [
-            94.3,
-            78.8,
-            45.7,
-        ],
+        "Grid (km)": (
+            resolution_results[
+                "grid_km"
+            ]
+        ),
+        "Mean offset match rate (%)": (
+            100.0
+            * resolution_results[
+                "mean_offset_match_rate"
+            ]
+        ),
+        all_offsets_label: (
+            100.0
+            * resolution_results[
+                "all_offsets_match_rate"
+            ]
+        ),
+        "Median n at true hotspot": (
+            resolution_results[
+                "median_true_hotspot_n"
+            ]
+        ),
+        "Peak retention (%)": (
+            100.0
+            * resolution_results[
+                "peak_retention_rate"
+            ]
+        ),
     }
 )
 
-display(resolution_summary)
+display(
+    resolution_summary.round(
+        {
+            "Grid (km)": 0,
+            "Mean offset match rate (%)": 1,
+            all_offsets_label: 1,
+            "Median n at true hotspot": 1,
+            "Peak retention (%)": 1,
+        }
+    )
+)
 """
         )
     )
@@ -520,7 +639,7 @@ display(resolution_summary)
 ax.plot(
     resolution_summary["Grid (km)"],
     resolution_summary[
-        "All 4 offsets matching (%)"
+        all_offsets_label
     ],
     marker="o",
 )

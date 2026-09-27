@@ -1,12 +1,54 @@
 from __future__ import annotations
 
+import asyncio
+import sys
 from pathlib import Path
 
 import nbformat
+from jupyter_client import AsyncKernelManager
 from nbclient import NotebookClient
 
 
 NOTEBOOK_NAME = "02_spatial_eda.ipynb"
+
+
+class SecureAsyncKernelManager(
+    AsyncKernelManager
+):
+    """Kernel manager with encrypted local transport."""
+
+    def __init__(
+        self,
+        **kwargs: object,
+    ) -> None:
+        kwargs.setdefault(
+            "transport_encryption",
+            "required",
+        )
+        kwargs.setdefault(
+            "ip",
+            "127.0.0.1",
+        )
+
+        super().__init__(**kwargs)
+
+
+def configure_event_loop() -> None:
+    """Use the ZMQ-compatible event loop policy on Windows."""
+
+    if sys.platform != "win32":
+        return
+
+    selector_policy = getattr(
+        asyncio,
+        "WindowsSelectorEventLoopPolicy",
+        None,
+    )
+
+    if selector_policy is not None:
+        asyncio.set_event_loop_policy(
+            selector_policy()
+        )
 
 
 def find_repo_root(start: Path) -> Path:
@@ -41,6 +83,8 @@ def count_output_errors(
 
 
 def main() -> None:
+    configure_event_loop()
+
     script_dir = Path(__file__).resolve().parent
     notebook_path = script_dir / NOTEBOOK_NAME
     repo_root = find_repo_root(script_dir)
@@ -76,6 +120,9 @@ def main() -> None:
         notebook,
         timeout=120,
         kernel_name="python3",
+        kernel_manager_class=(
+            SecureAsyncKernelManager
+        ),
         allow_errors=False,
         resources={
             "metadata": {
