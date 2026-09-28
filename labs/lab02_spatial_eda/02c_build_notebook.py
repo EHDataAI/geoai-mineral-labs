@@ -64,8 +64,10 @@ distances and grid dimensions are expressed in metres.
 from pathlib import Path
 import sys
 
+import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
+from shapely.geometry import box
 
 
 def find_repo_root(start: Path) -> Path:
@@ -88,11 +90,14 @@ LAB_DIR = (
     / "lab02_spatial_eda"
 )
 RESULTS_DIR = LAB_DIR / "results"
+CONTEXT_DIR = LAB_DIR / "data" / "context"
 
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from geoai.spatial import (
+    DEFAULT_BOUNDS,
+    DEFAULT_CRS,
     assign_regular_grid,
     generate_synthetic_sampling,
     nearest_neighbor_distances,
@@ -101,9 +106,327 @@ from geoai.spatial import (
 )
 
 PRIMARY_CELL_SIZE_M = 10000.0
-GRID_ORIGIN = (350000.0, 7100000.0)
+GRID_ORIGIN = (
+    DEFAULT_BOUNDS[0],
+    DEFAULT_BOUNDS[2],
+)
 
 print("Primary grid resolution:", PRIMARY_CELL_SIZE_M, "m")
+"""
+        )
+    )
+
+    cells.append(
+        new_markdown_cell(
+            """## Geographic context of the synthetic experiment
+
+Before analysing sampling density, the synthetic study domain is placed in a
+real geographic reference frame.
+
+The country outline comes from **Natural Earth Admin 0 - Countries, 1:110m,
+version 5.1.1**. It is used only as a lightweight locator.
+
+The LAB02 study extent, sampling design, spatial signal, observations, and
+analytical results remain entirely synthetic.
+
+The projected study domain uses **EPSG:32719 - WGS 84 / UTM zone 19S** and is
+transformed to EPSG:4326 only for this geographic-context figure.
+"""
+        )
+    )
+
+    cells.append(
+        new_code_cell(
+            """context_path = (
+    CONTEXT_DIR
+    / "chile_context.geojson"
+)
+
+if not context_path.exists():
+    raise FileNotFoundError(
+        f"Context layer was not found: {context_path}"
+    )
+
+chile_context = gpd.read_file(
+    context_path,
+    engine="pyogrio",
+)
+
+required_context_columns = {
+    "name",
+    "iso_a2",
+    "iso_a3",
+    "source",
+    "source_dataset",
+    "source_scale",
+    "source_version",
+    "geometry",
+}
+
+missing_context_columns = (
+    required_context_columns
+    - set(chile_context.columns)
+)
+
+if missing_context_columns:
+    raise ValueError(
+        "Context layer is missing required columns: "
+        f"{sorted(missing_context_columns)}"
+    )
+
+if len(chile_context) != 1:
+    raise ValueError(
+        "Context layer must contain exactly one country feature."
+    )
+
+if chile_context.iloc[0]["iso_a3"] != "CHL":
+    raise ValueError(
+        "Context layer must represent Chile (ISO_A3 = CHL)."
+    )
+
+if chile_context.crs is None:
+    raise ValueError(
+        "Context layer CRS is missing."
+    )
+
+if chile_context.crs.to_epsg() != 4326:
+    raise ValueError(
+        "Context layer must use EPSG:4326."
+    )
+
+if not chile_context.geometry.is_valid.all():
+    raise ValueError(
+        "Context layer contains invalid geometry."
+    )
+
+xmin, xmax, ymin, ymax = DEFAULT_BOUNDS
+
+study_domain_utm = gpd.GeoDataFrame(
+    {
+        "name": [
+            "Synthetic LAB02 study domain",
+        ],
+    },
+    geometry=[
+        box(
+            xmin,
+            ymin,
+            xmax,
+            ymax,
+        )
+    ],
+    crs=DEFAULT_CRS,
+)
+
+study_domain_wgs84 = (
+    study_domain_utm
+    .to_crs(chile_context.crs)
+)
+
+chile_geometry = (
+    chile_context
+    .geometry
+    .iloc[0]
+)
+
+study_geometry = (
+    study_domain_wgs84
+    .geometry
+    .iloc[0]
+)
+
+if not study_geometry.within(chile_geometry):
+    raise ValueError(
+        "Synthetic study domain must be fully contained "
+        "within the Chile context geometry."
+    )
+
+study_bounds = (
+    study_domain_wgs84
+    .total_bounds
+)
+
+country_bounds = (
+    chile_context
+    .total_bounds
+)
+
+study_width = (
+    study_bounds[2]
+    - study_bounds[0]
+)
+
+study_height = (
+    study_bounds[3]
+    - study_bounds[1]
+)
+
+x_margin = max(
+    1.5 * study_width,
+    1.0,
+)
+
+y_margin = max(
+    1.5 * study_height,
+    1.0,
+)
+
+fig, axes = plt.subplots(
+    1,
+    2,
+    figsize=(12, 7),
+)
+
+chile_context.plot(
+    ax=axes[0],
+    color="0.88",
+    edgecolor="0.25",
+    linewidth=0.7,
+)
+
+study_domain_wgs84.boundary.plot(
+    ax=axes[0],
+    color="tab:red",
+    linewidth=2.0,
+)
+
+axes[0].set_title(
+    "Chile locator"
+)
+
+axes[0].set_xlabel(
+    "Longitude"
+)
+
+axes[0].set_ylabel(
+    "Latitude"
+)
+
+axes[0].set_xlim(
+    country_bounds[0] - 0.5,
+    country_bounds[2] + 0.5,
+)
+
+axes[0].set_ylim(
+    country_bounds[1] - 0.5,
+    country_bounds[3] + 0.5,
+)
+
+chile_context.plot(
+    ax=axes[1],
+    color="0.88",
+    edgecolor="0.25",
+    linewidth=0.7,
+)
+
+study_domain_wgs84.boundary.plot(
+    ax=axes[1],
+    color="tab:red",
+    linewidth=2.0,
+)
+
+study_centroid = (
+    study_geometry
+    .centroid
+)
+
+axes[1].annotate(
+    "Synthetic LAB02 domain",
+    xy=(
+        study_centroid.x,
+        study_centroid.y,
+    ),
+    xytext=(8, 8),
+    textcoords="offset points",
+)
+
+axes[1].set_title(
+    "Northern Chile context"
+)
+
+axes[1].set_xlabel(
+    "Longitude"
+)
+
+axes[1].set_ylabel(
+    "Latitude"
+)
+
+axes[1].set_xlim(
+    study_bounds[0] - x_margin,
+    study_bounds[2] + x_margin,
+)
+
+axes[1].set_ylim(
+    study_bounds[1] - y_margin,
+    study_bounds[3] + y_margin,
+)
+
+fig.suptitle(
+    "Geographic context of the synthetic LAB02 study domain"
+)
+
+fig.text(
+    0.01,
+    0.01,
+    (
+        "Context: Natural Earth 1:110m v5.1.1 | "
+        "Study domain and analytical data: synthetic"
+    ),
+    fontsize=8,
+)
+
+plt.tight_layout(
+    rect=(0.0, 0.04, 1.0, 0.95)
+)
+
+plt.show()
+
+print(
+    "Context source:",
+    chile_context.iloc[0]["source"],
+)
+
+print(
+    "Context version:",
+    chile_context.iloc[0]["source_version"],
+)
+
+print(
+    "Synthetic study CRS:",
+    DEFAULT_CRS,
+)
+
+print(
+    "Study domain within Chile:",
+    study_geometry.within(chile_geometry),
+)
+
+print(
+    "Study bounds in EPSG:4326:",
+    tuple(
+        round(float(value), 6)
+        for value in study_bounds
+    ),
+)
+"""
+        )
+    )
+
+    cells.append(
+        new_markdown_cell(
+            """### Context interpretation
+
+The map provides geographic orientation only.
+
+The Chile outline is real public-domain contextual cartography, while the
+highlighted LAB02 domain is a synthetic methodological extent.
+
+Its position must not be interpreted as an actual exploration project, mining
+property, concession, prospect, deposit, mineral occurrence, or field campaign.
+
+No geographic context layer contributes to the synthetic signal, sampling
+density, Monte Carlo experiment, or subsequent spatial analysis.
 """
         )
     )
@@ -801,9 +1124,15 @@ def main() -> None:
 
     notebook = build_notebook()
 
-    nbformat.write(
+    notebook_text = nbformat.writes(
         notebook,
-        output_path,
+    )
+    notebook_text = notebook_text.rstrip("\r\n") + "\n"
+
+    output_path.write_text(
+        notebook_text,
+        encoding="utf-8",
+        newline="\n",
     )
 
     print("Notebook created:")
