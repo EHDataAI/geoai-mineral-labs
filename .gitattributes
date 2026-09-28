@@ -5,6 +5,7 @@
 
 # Normalize text files in the repository
 * text=auto
+.gitattributes text eol=lf
 
 # Source code
 *.py      text eol=lf
@@ -15,6 +16,7 @@
 *.yaml    text eol=lf
 *.toml    text eol=lf
 *.json    text eol=lf
+*.geojson text eol=lf
 
 # Documentation
 *.md      text eol=lf

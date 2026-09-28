@@ -158,9 +158,15 @@ def main() -> None:
         for cell in executed_code_cells
     )
 
-    nbformat.write(
+    executed_text = nbformat.writes(
         executed,
-        notebook_path,
+    )
+    executed_text = executed_text.rstrip("\r\n") + "\n"
+
+    notebook_path.write_text(
+        executed_text,
+        encoding="utf-8",
+        newline="\n",
     )
 
     print("\nExecution result")

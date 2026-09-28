@@ -48,6 +48,30 @@ Derived variables include nearest-neighbour distance, grid identifiers, grid cen
 
 The synthetic signal is a teaching variable. It is not a real ore grade, geochemical assay, resource estimate, or prospectivity score.
 
+## Geographic context and provenance
+
+The notebook includes a lightweight geographic locator so that the synthetic
+study domain can be understood in a real coordinate reference context.
+
+The country geometry is derived from **Natural Earth Admin 0 - Countries,
+1:110m, version 5.1.1** and is stored locally as
+`data/context/chile_context.geojson` in **EPSG:4326**.
+
+The highlighted LAB 02 domain is not real exploration data. It is generated
+from `DEFAULT_BOUNDS` in `DEFAULT_CRS` (**EPSG:32719**) and is reprojected to
+EPSG:4326 only for the contextual figure.
+
+The location does not represent an actual exploration project, mining property,
+concession, prospect, deposit, mineral occurrence, or field campaign.
+
+`data/context/SOURCE.md` documents the source, derivation procedure,
+public-domain distribution status, and SHA-256 integrity hashes for both the
+downloaded Natural Earth archive and the derived GeoJSON artifact.
+
+The context layer is an auxiliary cartographic input only. It does not
+contribute to the synthetic signal, sampling process, Monte Carlo experiment,
+grid selection, or analytical results.
+
 ## Reusable code
 
 Reusable spatial functions are implemented in `src/geoai/spatial.py`:
@@ -85,6 +109,9 @@ transport encryption over the local loopback interface.
 The resulting data lineage is:
 
 `simulation -> persisted results -> notebook -> figures and interpretation`
+
+The geographic context layer follows a separate provenance path and is consumed
+only by the notebook visualization stage.
 
 ## Baseline result
 
@@ -203,11 +230,16 @@ These elements are deferred so that sampling-density and aggregation effects can
 - Persisted realization-resolution records: 1,200
 - Resolution-summary records: 3
 - Primary descriptive resolution: 10 km x 10 km
-- Notebook cells: 28
-- Notebook code cells executed: 12 / 12
+- Notebook cells: 31
+- Notebook code cells executed: 13 / 13
 - Notebook error outputs: 0
-- Embedded PNG figures: 5
+- Embedded PNG figures: 6
 - Notebook schema validation: passed
+- Geographic context feature: 1 valid Chile MultiPolygon
+- Geographic context CRS: EPSG:4326
+- Geographic context provenance: documented in `data/context/SOURCE.md`
+- Notebook encoding: UTF-8 without BOM
+- Notebook line endings: LF
 - Pre-commit validation: passed
 - Gitleaks secret scan: passed
 
