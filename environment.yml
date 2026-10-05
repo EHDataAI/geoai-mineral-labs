@@ -28,5 +28,9 @@ dependencies:
   - nbformat=5.*
   - nbclient=0.10.*
 
+  # Machine learning and statistical validation
+  - scipy=1.18.*
+  - scikit-learn=1.9.*
+
   # Testing
   - pytest=9.1.*
