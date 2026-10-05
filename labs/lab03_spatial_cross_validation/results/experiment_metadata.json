@@ -1,0 +1,31 @@
+{
+  "block_sizes_m": [
+    5000.0,
+    10000.0,
+    20000.0
+  ],
+  "bounds": [
+    350000.0,
+    430000.0,
+    7100000.0,
+    7180000.0
+  ],
+  "crs": "EPSG:32719",
+  "features": [
+    "easting",
+    "northing"
+  ],
+  "interpretation_rule": "Positive RMSE gap (spatial minus random) indicates that random CV reports a more optimistic error estimate.",
+  "model": "KNeighborsRegressor",
+  "n_campaign": 300,
+  "n_neighbors": 15,
+  "n_regional": 500,
+  "n_samples": 800,
+  "n_splits": 5,
+  "reference_target": "signal_true",
+  "seed": 12345,
+  "signal_true_max": 82.18236829751064,
+  "signal_true_min": 10.0,
+  "target": "signal",
+  "weights": "distance"
+}
