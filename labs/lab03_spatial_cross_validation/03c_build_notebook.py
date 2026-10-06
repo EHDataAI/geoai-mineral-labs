@@ -12,7 +12,7 @@ OUTPUT_PATH = LAB_DIR / "03_spatial_cross_validation.ipynb"
 
 cells = [
     new_markdown_cell(
-        """# LAB 03 ? Spatial Cross-Validation
+        """# LAB 03 — Spatial Cross-Validation
 
 ## Random K-Fold versus spatially blocked validation
 
@@ -161,7 +161,7 @@ frame[
     ),
 
     new_markdown_cell(
-        """## 3. Primary spatial validation geometry ? 5 km
+        """## 3. Primary spatial validation geometry — 5 km
 
 Each 5 km spatial block is assigned wholly to one validation fold. This
 prevents the same block from appearing simultaneously in training and
@@ -210,7 +210,7 @@ points = ax.scatter(
     s=20,
 )
 
-ax.set_title("LAB03 ? 5 KM SPATIAL CROSS-VALIDATION FOLDS")
+ax.set_title("LAB03 — 5 KM SPATIAL CROSS-VALIDATION FOLDS")
 ax.set_xlabel("Easting (m)")
 ax.set_ylabel("Northing (m)")
 ax.set_aspect("equal")
@@ -224,12 +224,12 @@ plt.show()"""
     ),
 
     new_markdown_cell(
-        """## 4. Primary comparison ? Random CV versus 5 km Spatial CV
+        """## 4. Primary comparison — Random CV versus 5 km Spatial CV
 
 RMSE and MAE are treated as the primary performance metrics.
 
-R? is reported as a complementary diagnostic because spatial folds may have
-very different target variance. Under low within-fold variance, R? can become
+R² is reported as a complementary diagnostic because spatial folds may have
+very different target variance. Under low within-fold variance, R² can become
 unstable or negative even when absolute prediction error remains moderate."""
     ),
 
@@ -250,7 +250,7 @@ primary_table = pd.DataFrame(
             primary["random_pooled_mae"],
             primary["random_median_separation_m"],
         ],
-        "Spatial CV ? 5 km": [
+        "Spatial CV — 5 km": [
             primary["spatial_pooled_rmse"],
             primary["spatial_pooled_mae"],
             primary["spatial_median_separation_m"],
@@ -305,7 +305,7 @@ also reduce the number of independent spatial units available to distribute
 across folds.
 
 For this reason, stronger performance degradation at larger block sizes
-cannot be interpreted only as ?more leakage removed?; fold support and target
+cannot be interpreted only as "more leakage removed"; fold support and target
 heterogeneity must also be examined."""
     ),
 
@@ -362,7 +362,7 @@ ax.bar(
     label="Spatial Block CV",
 )
 
-ax.set_title("LAB03 ? POOLED RMSE BY VALIDATION DESIGN")
+ax.set_title("LAB03 — POOLED RMSE BY VALIDATION DESIGN")
 ax.set_xlabel("Spatial block size")
 ax.set_ylabel("Pooled RMSE")
 ax.set_xticks(positions, labels)
@@ -388,7 +388,7 @@ ax.plot(
     label="Spatial Block CV",
 )
 
-ax.set_title("LAB03 ? MEDIAN TEST-TO-TRAIN SPATIAL SEPARATION")
+ax.set_title("LAB03 — MEDIAN TEST-TO-TRAIN SPATIAL SEPARATION")
 ax.set_xlabel("Spatial block size (km)")
 ax.set_ylabel("Median nearest train distance (km)")
 ax.legend()
@@ -435,10 +435,10 @@ ax.bar(
     positions + width / 2,
     fold_rmse["spatial_block"],
     width,
-    label="Spatial Block CV ? 5 km",
+    label="Spatial Block CV — 5 km",
 )
 
-ax.set_title("LAB03 ? FOLD-LEVEL RMSE, PRIMARY 5 KM DESIGN")
+ax.set_title("LAB03 — FOLD-LEVEL RMSE, PRIMARY 5 KM DESIGN")
 ax.set_xlabel("Fold")
 ax.set_ylabel("RMSE")
 ax.set_xticks(positions, fold_rmse.index)
@@ -513,7 +513,7 @@ and produces a higher pooled prediction error than Random K-Fold.
 
 The 10 km and 20 km experiments show that increasingly coarse spatial
 blocking can produce an even more demanding test, but also reduce effective
-spatial support and destabilize fold-level metrics such as R?.
+spatial support and destabilize fold-level metrics such as R².
 
 Therefore, model performance in spatial machine learning should always be
 interpreted together with the geometry and support of the validation design."""
