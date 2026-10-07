@@ -1,0 +1,14 @@
+{
+  "input_rows": 1200,
+  "complete_rows": 1092,
+  "excluded_missing_rows": 108,
+  "elements": 10,
+  "clr_dimension": 10,
+  "clr_rank": 9,
+  "ilr_dimension": 9,
+  "coda_eigenvalues_match": true,
+  "raw_pc1_variance": 0.304756782810416,
+  "closed_pc1_variance": 0.3104532518375104,
+  "clr_pc1_variance": 0.2255979771466171,
+  "ilr_pc1_variance": 0.225597977146663
+}

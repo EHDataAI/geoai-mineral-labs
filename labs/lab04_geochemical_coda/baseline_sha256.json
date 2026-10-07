@@ -1,0 +1,11 @@
+{
+    "laboratory":  "LAB04",
+    "purpose":  "Pre-refactoring reproducibility baseline",
+    "algorithm":  "SHA256",
+    "files":  {
+                  "dataset":  "23ABAA0E8B351A75F0C961A2763F710F44183D83968D0C940DA8F17427DE1E0A",
+                  "analysis_summary":  "3FBD9E2F4AFB6F7E9BA19BC9DCF4C365BF81DF3BEBE52AFDEE94277A79CFA93F",
+                  "lod_sensitivity_summary":  "AE77224A324CE56F8F27D27267ECF989D45ECA51E482B7912A86C8810E33D92D",
+                  "pca_explained_variance":  "E4C296BDC7E463FFA28C7303CC88D0F79F5CE1FDFF1D232B8B577D1ECCFF416E"
+              }
+}
