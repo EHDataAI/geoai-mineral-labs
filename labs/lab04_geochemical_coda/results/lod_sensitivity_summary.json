@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "lod_half": 0.5,
+    "lod_sqrt2": 0.7071067811865475
+  },
+  "common_samples": 1092,
+  "pc1_score_correlation": 0.9836860998093131,
+  "pc2_score_correlation": 0.9812981793421425,
+  "pc3_score_correlation": 0.9544328110360077,
+  "pc1_explained_variance_lod_half": 0.2255979771466171,
+  "pc1_explained_variance_lod_sqrt2": 0.24649560909747206,
+  "pc1_explained_variance_absolute_difference": 0.02089763195085495
+}

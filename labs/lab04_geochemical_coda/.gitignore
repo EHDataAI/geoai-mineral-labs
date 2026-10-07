@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+
+results/analytical_dataset.csv
+results/lod_sensitivity_scores.csv

@@ -1,0 +1,52 @@
+
+{
+  "contract_version": "1.0.0",
+  "laboratory": "LAB04",
+  "dataset": "synthetic_geochemistry",
+  "dataset_type": "synthetic",
+  "seed": 12345,
+  "expected_samples": 1200,
+  "crs": "EPSG:32719",
+  "measurement_basis": "elemental_mass_concentration",
+  "unit": "ppm",
+  "unit_status": "synthetic_convention",
+  "whole_rock_composition": false,
+  "composition_scope": "selected_10_element_subcomposition",
+  "closure_total": 100.0,
+  "closure_interpretation": "relative_normalization_only",
+  "elements": [
+    "Cu",
+    "Mo",
+    "Au",
+    "As",
+    "Sb",
+    "Fe",
+    "Mg",
+    "Ca",
+    "Al",
+    "K"
+  ],
+  "detection_limits": {
+    "Cu": 30.0,
+    "Mo": 3.5,
+    "Au": 0.0105,
+    "As": 4.8,
+    "Sb": 1.2,
+    "Fe": 3000.0,
+    "Mg": 1700.0,
+    "Ca": 1500.0,
+    "Al": 2500.0,
+    "K": 1150.0
+  },
+  "censored_observation_encoding": 0.0,
+  "missing_observation_encoding": "NaN",
+  "primary_replacement": "LOD/2",
+  "sensitivity_replacement": "LOD/sqrt(2)",
+  "latent_variables_usage": "validation_only",
+  "limitations": [
+    "Synthetic concentration values are not laboratory measurements.",
+    "Detection limits are experimental assumptions, not certified analytical limits.",
+    "The selected elements form a subcomposition, not a complete whole-rock chemical analysis.",
+    "Simple below-LOD replacement is used only as a methodological baseline."
+  ]
+}

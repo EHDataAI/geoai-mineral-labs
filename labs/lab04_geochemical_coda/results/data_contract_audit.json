@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "samples": 1200,
+  "elements": [
+    "Cu",
+    "Mo",
+    "Au",
+    "As",
+    "Sb",
+    "Fe",
+    "Mg",
+    "Ca",
+    "Al",
+    "K"
+  ],
+  "element_units": "ppm",
+  "unit_status": "synthetic_convention",
+  "composition_scope": "selected_10_element_subcomposition",
+  "closure_total": 100.0,
+  "closure_interpretation": "relative_normalization_only",
+  "detection_limits": {
+    "Cu": 30.0,
+    "Mo": 3.5,
+    "Au": 0.0105,
+    "As": 4.8,
+    "Sb": 1.2,
+    "Fe": 3000.0,
+    "Mg": 1700.0,
+    "Ca": 1500.0,
+    "Al": 2500.0,
+    "K": 1150.0
+  },
+  "censoring_rates": {
+    "Cu": 0.13083333333333333,
+    "Mo": 0.14583333333333334,
+    "Au": 0.1525,
+    "As": 0.11916666666666667,
+    "Sb": 0.15833333333333333,
+    "Fe": 0.035833333333333335,
+    "Mg": 0.05416666666666667,
+    "Ca": 0.050833333333333335,
+    "Al": 0.07083333333333333,
+    "K": 0.05583333333333333
+  },
+  "missing_cells": 111,
+  "missing_rows": 108,
+  "censored_cells": 1169,
+  "data_sources": "synthetic_only",
+  "latent_columns": "diagnostic_ground_truth_only"
+}
