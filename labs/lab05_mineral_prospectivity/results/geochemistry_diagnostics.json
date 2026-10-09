@@ -1,0 +1,23 @@
+{
+  "censored_by_element": {
+    "Al": 0,
+    "As": 15,
+    "Au": 32,
+    "Ca": 0,
+    "Cu": 6,
+    "Fe": 0,
+    "K": 0,
+    "Mg": 0,
+    "Mo": 13,
+    "Sb": 20
+  },
+  "censored_fraction": 0.00134375,
+  "closure_max_abs_error": 4.440892098500626e-16,
+  "clr_max_abs_row_sum": 1.2878587085651816e-14,
+  "elements": 10,
+  "ilr_dimensions": 9,
+  "raw_minimum": 0.006,
+  "rows": 6400,
+  "total_censored_values": 86,
+  "total_geochemical_values": 64000
+}

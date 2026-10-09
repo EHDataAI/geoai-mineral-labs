@@ -79,7 +79,8 @@
     "latent_favourability",
     "deposit_id",
     "distance_to_known_deposit",
-    "true_deposit_probability"
+    "true_deposit_probability",
+    "cell_id"
   ],
   "models": {
     "baseline_null": "DummyClassifier",
