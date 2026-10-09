@@ -1,0 +1,130 @@
+{
+  "contract_version": "1.0.0",
+  "laboratory": "LAB05",
+  "title": "Mineral Prospectivity Mapping",
+  "dataset_type": "synthetic",
+  "random_seed": 12345,
+  "study_area": {
+    "crs": "EPSG:32719",
+    "easting_min": 350000,
+    "easting_max": 430000,
+    "northing_min": 7100000,
+    "northing_max": 7180000,
+    "grid_cell_size_m": 1000,
+    "expected_grid_cells": 6400
+  },
+  "prediction_problem": {
+    "task": "prospectivity_ranking",
+    "primary_output": "prospectivity_score",
+    "probability_interpretation_allowed": false,
+    "reason": "training uses known positives and sampled unlabeled/background observations"
+  },
+  "label_semantics": {
+    "known_positive": "synthetic occurrence available to the modelling workflow",
+    "unlabeled": "location without a known synthetic occurrence",
+    "true_deposit": "synthetic oracle variable unavailable during model development",
+    "latent_favourability": "synthetic oracle variable unavailable during model development"
+  },
+  "feature_groups": {
+    "geology": [
+      "lithology",
+      "distance_to_intrusive_m",
+      "intrusive_affinity"
+    ],
+    "structure": [
+      "distance_to_fault_m",
+      "distance_to_fault_intersection_m",
+      "distance_to_contact_m"
+    ],
+    "geophysics": [
+      "magnetic_anomaly",
+      "gravity_anomaly"
+    ],
+    "alteration": [
+      "alteration_index"
+    ],
+    "geochemistry_raw": [
+      "Cu",
+      "Mo",
+      "Au",
+      "As",
+      "Sb",
+      "Fe",
+      "Mg",
+      "Ca",
+      "Al",
+      "K"
+    ]
+  },
+  "coordinate_columns": [
+    "Easting",
+    "Northing"
+  ],
+  "grouping_columns": [
+    "spatial_block_id"
+  ],
+  "label_columns": [
+    "known_positive"
+  ],
+  "diagnostic_only_columns": [
+    "true_deposit",
+    "latent_favourability"
+  ],
+  "forbidden_model_features": [
+    "Easting",
+    "Northing",
+    "spatial_block_id",
+    "known_positive",
+    "true_deposit",
+    "latent_favourability",
+    "deposit_id",
+    "distance_to_known_deposit",
+    "true_deposit_probability"
+  ],
+  "models": {
+    "baseline_null": "DummyClassifier",
+    "baseline_statistical": "LogisticRegression",
+    "primary_nonlinear": "RandomForestClassifier"
+  },
+  "validation": {
+    "primary": "spatial_group_cross_validation",
+    "diagnostic": "random_cross_validation",
+    "primary_splitter": "StratifiedGroupKFold",
+    "n_splits": 5,
+    "group_column": "spatial_block_id",
+    "require_zero_group_overlap": true
+  },
+  "metrics": {
+    "primary": [
+      "average_precision",
+      "top_01_recall",
+      "top_05_recall",
+      "top_10_recall",
+      "success_rate_curve"
+    ],
+    "secondary": [
+      "roc_auc",
+      "precision",
+      "recall",
+      "f1"
+    ]
+  },
+  "background_sampling": {
+    "interpretation": "unlabeled_background",
+    "positive_to_background_ratio": 5,
+    "sensitivity_replicates": 10
+  },
+  "geochemistry": {
+    "raw_baseline": true,
+    "clr_comparison": true,
+    "ilr_primary_modelling_representation": true,
+    "oracle_variables_allowed_as_predictors": false
+  },
+  "synthetic_oracle": {
+    "available": true,
+    "allowed_during_model_selection": false,
+    "allowed_during_hyperparameter_selection": false,
+    "allowed_during_feature_selection": false,
+    "allowed_after_model_freeze": true
+  }
+}
