@@ -1,0 +1,49 @@
+{
+  "background_is_confirmed_negative": false,
+  "background_per_replicate": 500,
+  "background_replicates": 10,
+  "categorical_preprocessing": "OneHotEncoder fitted inside each fold",
+  "cv_folds": 5,
+  "feature_sets": {
+    "A": "A_non_geochemical",
+    "B": "B_raw_geochemistry",
+    "C": "C_ilr_geochemistry"
+  },
+  "known_positives_per_replicate": 100,
+  "logistic_regression": {
+    "max_iter": 2000,
+    "solver": "liblinear"
+  },
+  "models": [
+    "dummy",
+    "logistic_regression",
+    "random_forest"
+  ],
+  "numeric_scaling_logistic": "StandardScaler fitted inside each fold",
+  "observed_model_fits": 900,
+  "oracle_used_for_background_sampling": false,
+  "oracle_used_for_training": false,
+  "planned_model_fits": 900,
+  "random_forest": {
+    "max_depth": 8,
+    "max_features": "sqrt",
+    "min_samples_leaf": 2,
+    "n_estimators": 64,
+    "n_jobs": 1
+  },
+  "rows_per_replicate": 600,
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "seed": 12345,
+  "spatial_group_overlap_max": 0,
+  "target_semantics": "known_positive_vs_sampled_unlabeled_background",
+  "top_fractions": [
+    0.01,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.5
+  ],
+  "validation_diagnostic": "random",
+  "validation_primary": "spatial"
+}
