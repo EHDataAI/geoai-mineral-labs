@@ -130,25 +130,50 @@ def write_lab_gitignore() -> None:
 
 
 def unstage_heavy_dataset() -> None:
-    """Remove generated evidence CSV from index, preserving local file."""
+    """Remove generated evidence CSV from index when necessary."""
     relative = str(
         HEAVY_DATASET.relative_to(ROOT)
     )
 
-    run(
+    result = run(
         [
             "git",
-            "restore",
-            "--staged",
-            "--",
-            relative,
-        ]
+            "diff",
+            "--cached",
+            "--name-only",
+        ],
+        capture=True,
     )
+
+    staged = {
+        line.strip()
+        for line in result.stdout.splitlines()
+        if line.strip()
+    }
+
+    if relative in staged:
+        run(
+            [
+                "git",
+                "restore",
+                "--staged",
+                "--",
+                relative,
+            ]
+        )
+
+        print(
+            "HEAVY_DATASET_UNSTAGED = YES"
+        )
+    else:
+        print(
+            "HEAVY_DATASET_UNSTAGED = ALREADY"
+        )
 
     if not HEAVY_DATASET.is_file():
         raise RuntimeError(
-            "Heavy dataset was unexpectedly removed "
-            "from the working tree."
+            "Heavy dataset is missing from "
+            "the working tree."
         )
 
     print(
