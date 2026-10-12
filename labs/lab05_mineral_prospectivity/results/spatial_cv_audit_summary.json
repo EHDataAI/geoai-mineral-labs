@@ -1,14 +1,14 @@
 {
-  "hidden_deposits": 100,
+  "hidden_deposits": 115,
   "known_positives": 100,
   "max_test_groups": 13,
-  "max_test_positives": 27,
+  "max_test_positives": 23,
   "min_test_groups": 12,
-  "min_test_positives": 14,
+  "min_test_positives": 17,
   "n_splits": 5,
-  "positive_blocks": 37,
+  "positive_blocks": 40,
   "rows": 6400,
   "spatial_blocks": 64,
   "total_group_overlap": 0,
-  "true_deposits": 200
+  "true_deposits": 215
 }

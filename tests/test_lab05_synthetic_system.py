@@ -86,12 +86,85 @@ def test_true_deposit_is_rare_but_present() -> None:
 def test_known_positives_are_true_deposits() -> None:
     data = load_data()
 
+    contract = json.loads(
+        CONTRACT_PATH.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    expected = int(
+        contract[
+            "synthetic_oracle"
+        ][
+            "known_positive_count"
+        ]
+    )
+
     known = data.loc[
         data["known_positive"] == 1
     ]
 
-    assert len(known) > 0
+    assert len(known) == expected
     assert known["true_deposit"].eq(1).all()
+
+
+def test_bootstrap_generator_matches_canonical_source() -> None:
+    import ast
+
+    canonical = (
+        LAB_DIR
+        / "05a_generate_synthetic_mineral_system.py"
+    ).read_text(
+        encoding="utf-8"
+    ).rstrip() + "\n"
+
+    bootstrap_path = (
+        ROOT
+        / "scripts"
+        / "lab05"
+        / "build_gate01.py"
+    )
+
+    tree = ast.parse(
+        bootstrap_path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    embedded = None
+
+    for node in tree.body:
+        if (
+            isinstance(
+                node,
+                ast.Assign,
+            )
+            and any(
+                isinstance(
+                    target,
+                    ast.Name,
+                )
+                and target.id
+                == "GENERATOR"
+                for target in node.targets
+            )
+            and isinstance(
+                node.value,
+                ast.Constant,
+            )
+            and isinstance(
+                node.value.value,
+                str,
+            )
+        ):
+            embedded = (
+                node.value.value.rstrip()
+                + "\n"
+            )
+            break
+
+    assert embedded is not None
+    assert embedded == canonical
 
 
 def test_hidden_deposits_exist() -> None:

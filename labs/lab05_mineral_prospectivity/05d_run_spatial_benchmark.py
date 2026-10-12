@@ -29,6 +29,15 @@ from sklearn.preprocessing import (
     StandardScaler,
 )
 
+from prospectivity_config import (
+    BACKGROUND_PER_REPLICATE,
+    BACKGROUND_REPLICATES,
+    CV_FOLDS,
+    KNOWN_POSITIVE_COUNT,
+    ROWS_PER_REPLICATE,
+    SEED,
+)
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -86,13 +95,6 @@ TARGET = "known_positive"
 
 GROUP = "spatial_block_id"
 
-SEED = 12345
-
-BACKGROUND_REPLICATES = 10
-
-BACKGROUND_PER_REPLICATE = 500
-
-CV_FOLDS = 5
 
 TOP_FRACTIONS = (
     0.01,
@@ -233,9 +235,9 @@ def sample_background(
         evidence[TARGET] == 0
     ]
 
-    if len(positives) != 100:
+    if len(positives) != KNOWN_POSITIVE_COUNT:
         raise RuntimeError(
-            "Expected exactly 100 known positives."
+            "Unexpected known-positive count."
         )
 
     if len(background) < (
@@ -277,15 +279,15 @@ def sample_background(
 
     if int(
         sampled[TARGET].sum()
-    ) != 100:
+    ) != KNOWN_POSITIVE_COUNT:
         raise RuntimeError(
             "Positive count changed during "
             "background sampling."
         )
 
-    if len(sampled) != 600:
+    if len(sampled) != ROWS_PER_REPLICATE:
         raise RuntimeError(
-            "Expected 600 rows per replicate."
+            "Unexpected row count per replicate."
         )
 
     return sampled
@@ -853,7 +855,7 @@ def main() -> int:
 
     if int(
         evidence[TARGET].sum()
-    ) != 100:
+    ) != KNOWN_POSITIVE_COUNT:
         raise RuntimeError(
             "Unexpected known-positive count."
         )
@@ -1187,8 +1189,8 @@ def main() -> int:
         "background_per_replicate": (
             BACKGROUND_PER_REPLICATE
         ),
-        "known_positives_per_replicate": 100,
-        "rows_per_replicate": 600,
+        "known_positives_per_replicate": KNOWN_POSITIVE_COUNT,
+        "rows_per_replicate": ROWS_PER_REPLICATE,
         "cv_folds": CV_FOLDS,
         "validation_primary": "spatial",
         "validation_diagnostic": "random",

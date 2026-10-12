@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from prospectivity_config import SEED, STUDY_AREA
+from prospectivity_config import KNOWN_POSITIVE_COUNT, SEED, STUDY_AREA
 
 
 LAB_DIR = Path(__file__).resolve().parent
@@ -87,21 +87,51 @@ def distance_to_line(
     return numerator / denominator
 
 
+
 def add_geological_evidence(
     grid: pd.DataFrame,
     rng: np.random.Generator,
 ) -> pd.DataFrame:
-    """Generate geological, structural, geophysical and alteration fields."""
+    """Generate partially independent synthetic evidence layers."""
     result = grid.copy()
 
     x = result["Easting"].to_numpy()
     y = result["Northing"].to_numpy()
 
+    center_a = (
+        382000.0,
+        7145000.0,
+    )
+
+    center_b = (
+        404000.0,
+        7160000.0,
+    )
+
+    distance_a = np.sqrt(
+        (x - center_a[0]) ** 2
+        + (y - center_a[1]) ** 2
+    )
+
+    distance_b = np.sqrt(
+        (x - center_b[0]) ** 2
+        + (y - center_b[1]) ** 2
+    )
+
+    distance_to_intrusive = np.minimum(
+        distance_a,
+        distance_b,
+    )
+
+    result[
+        "distance_to_intrusive_m"
+    ] = distance_to_intrusive
+
     intrusive_a = gaussian_field(
         x,
         y,
-        center_x=382000.0,
-        center_y=7145000.0,
+        center_x=center_a[0],
+        center_y=center_a[1],
         sigma_x=12000.0,
         sigma_y=9000.0,
     )
@@ -109,28 +139,94 @@ def add_geological_evidence(
     intrusive_b = gaussian_field(
         x,
         y,
-        center_x=404000.0,
-        center_y=7160000.0,
+        center_x=center_b[0],
+        center_y=center_b[1],
         sigma_x=9000.0,
         sigma_y=12000.0,
     )
 
-    intrusive_affinity = np.maximum(
-        intrusive_a,
-        intrusive_b,
+    broad_magmatic_field = gaussian_field(
+        x,
+        y,
+        center_x=393000.0,
+        center_y=7153000.0,
+        sigma_x=26000.0,
+        sigma_y=19000.0,
     )
 
-    result["intrusive_affinity"] = intrusive_affinity
+    intrusive_affinity = np.clip(
+        0.78
+        * np.maximum(
+            intrusive_a,
+            intrusive_b,
+        )
+        + 0.22
+        * broad_magmatic_field,
+        0.0,
+        1.0,
+    )
 
-    result["distance_to_intrusive_m"] = (
-        30000.0 * (1.0 - intrusive_affinity)
+    result[
+        "intrusive_affinity"
+    ] = intrusive_affinity
+
+    volcanic_field = gaussian_field(
+        x,
+        y,
+        center_x=390000.0,
+        center_y=7136000.0,
+        sigma_x=23000.0,
+        sigma_y=14000.0,
+    )
+
+    sedimentary_field = gaussian_field(
+        x,
+        y,
+        center_x=416000.0,
+        center_y=7172000.0,
+        sigma_x=22000.0,
+        sigma_y=15000.0,
+    )
+
+    intrusive_mask = (
+        (
+            distance_to_intrusive
+            <= 6500.0
+        )
+        & (
+            intrusive_affinity
+            >= 0.45
+        )
+    )
+
+    volcanic_mask = (
+        (~intrusive_mask)
+        & (
+            volcanic_field
+            >= 0.48
+        )
+    )
+
+    sedimentary_mask = (
+        (~intrusive_mask)
+        & (~volcanic_mask)
+        & (
+            (
+                sedimentary_field
+                >= 0.46
+            )
+            | (
+                y
+                >= 7166000.0
+            )
+        )
     )
 
     result["lithology"] = np.select(
         [
-            intrusive_affinity > 0.72,
-            intrusive_affinity > 0.42,
-            y > 7158000.0,
+            intrusive_mask,
+            volcanic_mask,
+            sedimentary_mask,
         ],
         [
             "intrusive",
@@ -161,24 +257,45 @@ def add_geological_evidence(
         intercept=7100000.0,
     )
 
-    result["distance_to_fault_m"] = np.minimum.reduce(
-        [fault_a, fault_b, fault_c]
+    result["distance_to_fault_m"] = (
+        np.minimum.reduce(
+            [
+                fault_a,
+                fault_b,
+                fault_c,
+            ]
+        )
     )
 
     intersection_x = 392000.0
     intersection_y = 7152000.0
 
-    result["distance_to_fault_intersection_m"] = np.sqrt(
+    result[
+        "distance_to_fault_intersection_m"
+    ] = np.sqrt(
         (x - intersection_x) ** 2
         + (y - intersection_y) ** 2
     )
 
-    result["distance_to_contact_m"] = (
-        np.abs(intrusive_affinity - 0.48) * 24000.0
+    contact_a = np.abs(
+        distance_a - 8500.0
+    )
+
+    contact_b = np.abs(
+        distance_b - 7500.0
+    )
+
+    result[
+        "distance_to_contact_m"
+    ] = np.minimum(
+        contact_a,
+        contact_b,
     )
 
     structural_signal = np.exp(
-        -result["distance_to_fault_m"].to_numpy()
+        -result[
+            "distance_to_fault_m"
+        ].to_numpy()
         / 7000.0
     )
 
@@ -189,27 +306,88 @@ def add_geological_evidence(
         / 12000.0
     )
 
+    contact_signal = np.exp(
+        -result[
+            "distance_to_contact_m"
+        ].to_numpy()
+        / 4500.0
+    )
+
+    magnetic_background = gaussian_field(
+        x,
+        y,
+        center_x=373000.0,
+        center_y=7163000.0,
+        sigma_x=18000.0,
+        sigma_y=24000.0,
+    )
+
+    gravity_background = gaussian_field(
+        x,
+        y,
+        center_x=410000.0,
+        center_y=7139000.0,
+        sigma_x=25000.0,
+        sigma_y=17000.0,
+    )
+
+    alteration_background = gaussian_field(
+        x,
+        y,
+        center_x=396000.0,
+        center_y=7148000.0,
+        sigma_x=17000.0,
+        sigma_y=21000.0,
+    )
+
     result["magnetic_anomaly"] = (
-        65.0 * intrusive_affinity
-        + 20.0 * structural_signal
-        + rng.normal(0.0, 8.0, len(result))
+        38.0
+        * intrusive_affinity
+        + 16.0
+        * structural_signal
+        + 18.0
+        * magnetic_background
+        + rng.normal(
+            0.0,
+            10.0,
+            len(result),
+        )
     )
 
     result["gravity_anomaly"] = (
-        35.0 * intrusive_affinity
-        - 12.0 * structural_signal
-        + rng.normal(0.0, 6.0, len(result))
+        20.0
+        * intrusive_affinity
+        - 8.0
+        * structural_signal
+        + 14.0
+        * gravity_background
+        + rng.normal(
+            0.0,
+            7.0,
+            len(result),
+        )
     )
 
     alteration_signal = (
-        0.50 * intrusive_affinity
-        + 0.30 * structural_signal
-        + 0.20 * intersection_signal
+        0.30
+        * intrusive_affinity
+        + 0.25
+        * structural_signal
+        + 0.15
+        * intersection_signal
+        + 0.15
+        * contact_signal
+        + 0.15
+        * alteration_background
     )
 
     result["alteration_index"] = np.clip(
         alteration_signal
-        + rng.normal(0.0, 0.08, len(result)),
+        + rng.normal(
+            0.0,
+            0.10,
+            len(result),
+        ),
         0.0,
         1.0,
     )
@@ -217,81 +395,145 @@ def add_geological_evidence(
     return result
 
 
+
 def add_synthetic_oracle(
     data: pd.DataFrame,
     rng: np.random.Generator,
 ) -> pd.DataFrame:
-    """Generate sealed latent favourability and true deposits."""
+    """Generate sealed DGP v2 mineral-system oracle."""
     result = data.copy()
 
-    source = result["intrusive_affinity"].to_numpy()
+    source = result[
+        "intrusive_affinity"
+    ].to_numpy()
 
     pathway = np.exp(
-        -result["distance_to_fault_m"].to_numpy()
-        / 6000.0
+        -result[
+            "distance_to_fault_m"
+        ].to_numpy()
+        / 6500.0
     )
 
     intersection = np.exp(
         -result[
             "distance_to_fault_intersection_m"
         ].to_numpy()
-        / 10000.0
+        / 11000.0
     )
 
     contact = np.exp(
-        -result["distance_to_contact_m"].to_numpy()
+        -result[
+            "distance_to_contact_m"
+        ].to_numpy()
         / 5000.0
     )
 
-    alteration = result["alteration_index"].to_numpy()
+    alteration = result[
+        "alteration_index"
+    ].to_numpy()
 
     lithology_bonus = np.select(
         [
-            result["lithology"].to_numpy()
+            result[
+                "lithology"
+            ].to_numpy()
             == "intrusive",
-            result["lithology"].to_numpy()
+            result[
+                "lithology"
+            ].to_numpy()
             == "volcanic",
         ],
         [
-            0.20,
-            0.10,
+            0.06,
+            0.03,
         ],
         default=0.0,
     )
 
+    source_pathway = (
+        source
+        * pathway
+    )
+
+    source_contact = (
+        source
+        * contact
+    )
+
+    pathway_intersection = (
+        pathway
+        * intersection
+    )
+
     noise = rng.normal(
         0.0,
-        0.22,
+        0.25,
         len(result),
     )
 
-    latent = (
-        0.31 * source
-        + 0.22 * pathway
-        + 0.16 * intersection
-        + 0.14 * contact
-        + 0.17 * alteration
+    latent_raw = (
+        0.20
+        * source
+        + 0.15
+        * pathway
+        + 0.10
+        * intersection
+        + 0.10
+        * contact
+        + 0.07
+        * alteration
+        + 0.18
+        * source_pathway
+        + 0.10
+        * source_contact
+        + 0.08
+        * pathway_intersection
         + lithology_bonus
         + noise
     )
 
+    latent_range = (
+        latent_raw.max()
+        - latent_raw.min()
+    )
+
+    if latent_range <= 0.0:
+        raise RuntimeError(
+            "Degenerate latent favourability."
+        )
+
     latent = (
-        latent - latent.min()
-    ) / (
-        latent.max() - latent.min()
+        latent_raw
+        - latent_raw.min()
+    ) / latent_range
+
+    result[
+        "latent_favourability"
+    ] = latent
+
+    logit = (
+        -8.0
+        + 8.5
+        * latent
     )
 
-    result["latent_favourability"] = latent
-
-    logit = -8.5 + 9.0 * latent
-
-    probability = 1.0 / (
-        1.0 + np.exp(-logit)
+    probability = (
+        1.0
+        / (
+            1.0
+            + np.exp(
+                -logit
+            )
+        )
     )
 
-    result["true_deposit_probability"] = probability
+    result[
+        "true_deposit_probability"
+    ] = probability
 
-    result["true_deposit"] = rng.binomial(
+    result[
+        "true_deposit"
+    ] = rng.binomial(
         n=1,
         p=probability,
         size=len(result),
@@ -300,35 +542,41 @@ def add_synthetic_oracle(
     return result
 
 
+
 def reveal_known_occurrences(
     data: pd.DataFrame,
     rng: np.random.Generator,
 ) -> pd.DataFrame:
-    """Reveal half of true deposits and keep the remainder hidden."""
+    """Reveal exactly the contract-defined number of true deposits."""
     result = data.copy()
 
     result["known_positive"] = 0
     result["deposit_id"] = ""
 
     deposit_indices = result.index[
-        result["true_deposit"] == 1
+        result[
+            "true_deposit"
+        ]
+        == 1
     ].to_numpy()
 
-    n_true = len(deposit_indices)
-
-    if n_true < 2:
-        raise RuntimeError(
-            "Synthetic system produced too few true deposits."
-        )
-
-    n_known = max(
-        1,
-        int(np.floor(n_true * 0.50)),
+    n_true = len(
+        deposit_indices
     )
+
+    if (
+        n_true
+        <= KNOWN_POSITIVE_COUNT
+    ):
+        raise RuntimeError(
+            "Synthetic system produced "
+            "insufficient true deposits for "
+            "the fixed known-positive contract."
+        )
 
     known_indices = rng.choice(
         deposit_indices,
-        size=n_known,
+        size=KNOWN_POSITIVE_COUNT,
         replace=False,
     )
 
@@ -344,7 +592,7 @@ def reveal_known_occurrences(
         f"DEP_{index:03d}"
         for index in range(
             1,
-            n_known + 1,
+            KNOWN_POSITIVE_COUNT + 1,
         )
     ]
 

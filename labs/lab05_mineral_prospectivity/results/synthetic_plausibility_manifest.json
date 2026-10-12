@@ -1,0 +1,42 @@
+{
+  "context_variables": [
+    "distance_to_intrusive_m",
+    "intrusive_affinity",
+    "distance_to_fault_m",
+    "distance_to_fault_intersection_m",
+    "distance_to_contact_m",
+    "magnetic_anomaly",
+    "gravity_anomaly",
+    "alteration_index"
+  ],
+  "dataset_modified": false,
+  "gate": "3.1",
+  "geochemical_variables": [
+    "Cu",
+    "Mo",
+    "Au",
+    "As",
+    "Sb",
+    "Fe",
+    "Mg",
+    "Ca",
+    "Al",
+    "K"
+  ],
+  "interpretation": "Flags require scientific review and do not automatically imply dataset regeneration.",
+  "known_positive_rows": 100,
+  "model_selected": false,
+  "oracle_fields_forbidden": [
+    "deposit_id",
+    "distance_to_known_deposit",
+    "latent_favourability",
+    "true_deposit",
+    "true_deposit_probability"
+  ],
+  "oracle_values_loaded": false,
+  "purpose": "diagnostic_synthetic_geological_plausibility_audit",
+  "review_flag_count": 0,
+  "review_flags": [],
+  "rows": 6400,
+  "unlabeled_rows": 6300
+}

@@ -1,10 +1,10 @@
 {
-  "deposit_prevalence": 0.03125,
-  "hidden_deposits": 100,
+  "deposit_prevalence": 0.03359375,
+  "hidden_deposits": 115,
   "known_positives": 100,
   "latent_max": 1.0,
   "latent_min": 0.0,
   "rows": 6400,
   "spatial_blocks": 64,
-  "true_deposits": 200
+  "true_deposits": 215
 }

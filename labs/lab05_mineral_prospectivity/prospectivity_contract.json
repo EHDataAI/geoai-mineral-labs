@@ -126,6 +126,8 @@
     "allowed_during_model_selection": false,
     "allowed_during_hyperparameter_selection": false,
     "allowed_during_feature_selection": false,
-    "allowed_after_model_freeze": true
+    "allowed_after_model_freeze": true,
+    "known_positive_count": 100,
+    "known_positive_selection": "fixed_count_random_without_replacement"
   }
 }

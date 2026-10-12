@@ -82,6 +82,31 @@ def load_contract() -> dict[str, Any]:
             "Synthetic oracle must not be available during model selection."
         )
 
+    known_positive_count = contract["synthetic_oracle"].get(
+        "known_positive_count"
+    )
+
+    if not isinstance(known_positive_count, int):
+        raise ValueError(
+            "synthetic_oracle.known_positive_count must be an integer."
+        )
+
+    if known_positive_count <= 0:
+        raise ValueError(
+            "synthetic_oracle.known_positive_count must be positive."
+        )
+
+    known_positive_selection = contract["synthetic_oracle"].get(
+        "known_positive_selection"
+    )
+
+    if (
+        known_positive_selection
+        != "fixed_count_random_without_replacement"
+    ):
+        raise ValueError(
+            "Unexpected synthetic oracle known-positive selection policy."
+        )
     if contract["synthetic_oracle"]["allowed_during_feature_selection"]:
         raise ValueError(
             "Synthetic oracle must not be available during feature selection."
@@ -94,6 +119,31 @@ CONTRACT = load_contract()
 
 SEED = int(CONTRACT["random_seed"])
 STUDY_AREA = CONTRACT["study_area"]
+KNOWN_POSITIVE_COUNT = int(
+    CONTRACT["synthetic_oracle"]["known_positive_count"]
+)
+
+BACKGROUND_RATIO = int(
+    CONTRACT["background_sampling"]["positive_to_background_ratio"]
+)
+
+BACKGROUND_REPLICATES = int(
+    CONTRACT["background_sampling"]["sensitivity_replicates"]
+)
+
+BACKGROUND_PER_REPLICATE = (
+    KNOWN_POSITIVE_COUNT
+    * BACKGROUND_RATIO
+)
+
+CV_FOLDS = int(
+    CONTRACT["validation"]["n_splits"]
+)
+
+ROWS_PER_REPLICATE = (
+    KNOWN_POSITIVE_COUNT
+    + BACKGROUND_PER_REPLICATE
+)
 FEATURE_GROUPS = CONTRACT["feature_groups"]
 FORBIDDEN_MODEL_FEATURES = frozenset(
     CONTRACT["forbidden_model_features"]
