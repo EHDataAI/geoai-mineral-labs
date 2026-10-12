@@ -1,0 +1,50 @@
+{
+  "aggregate_rows": 18,
+  "background_is_confirmed_negative": false,
+  "background_replicates": 10,
+  "cv_folds": 5,
+  "dgp_v2_frozen": true,
+  "duplicate_oof_predictions_total": 0,
+  "feature_sets": [
+    "A",
+    "B",
+    "C"
+  ],
+  "gate": "4.1",
+  "known_positives_per_replicate": 100,
+  "method": "pooled_out_of_fold_evaluation",
+  "missing_oof_predictions_total": 0,
+  "models": [
+    "dummy",
+    "logistic_regression",
+    "random_forest"
+  ],
+  "observed_model_fits": 900,
+  "oof_metric_rows": 180,
+  "oof_prediction_count_max": 1,
+  "oof_prediction_count_min": 1,
+  "oracle_used_for_feature_selection": false,
+  "oracle_used_for_model_selection": false,
+  "oracle_used_for_training": false,
+  "planned_model_fits": 900,
+  "random_cv_role": "diagnostic_only",
+  "rows_per_replicate": 600,
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "seed": 12345,
+  "selection_metric": "mean_spatial_oof_average_precision",
+  "spatial_group_overlap_max": 0,
+  "success_curve_rows": 1080,
+  "target_semantics": "known_positive_vs_sampled_unlabeled_background",
+  "top_fractions": [
+    0.01,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.5
+  ],
+  "validation_strategies": [
+    "spatial",
+    "random"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "candidate_rows": 6300,
+  "feature_selection_after_oracle": false,
+  "final_hidden_average_precision": 0.056649765810875066,
+  "final_hidden_roc_auc": 0.7090703314470492,
+  "gate": "6",
+  "hidden_deposit_rows": 115,
+  "hidden_prevalence": 0.018253968253968255,
+  "hidden_rank_max": 6225,
+  "hidden_rank_mean": 1857.4,
+  "hidden_rank_median": 1117.0,
+  "hidden_rank_min": 6,
+  "known_positive_rows": 100,
+  "model_or_features_changed_after_oracle": false,
+  "model_selection_after_oracle": false,
+  "oracle_loaded_for_final_evaluation": true,
+  "primary_feature_set": "A",
+  "primary_model": "logistic_regression",
+  "purpose": "post_freeze_hidden_oracle_evaluation",
+  "threshold_selection_after_oracle": false,
+  "true_deposit_rows": 215
+}

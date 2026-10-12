@@ -1,0 +1,118 @@
+{
+  "background_is_confirmed_negative": false,
+  "background_replicates": 10,
+  "candidate_ranking_order": [
+    "prospectivity_score_oos_mean_desc",
+    "prospectivity_score_oos_median_desc",
+    "prospectivity_score_oos_std_asc",
+    "cell_id_asc"
+  ],
+  "candidate_rows": 6300,
+  "candidate_top_10pct_count": 630,
+  "candidate_top_1pct_count": 63,
+  "candidate_top_5pct_count": 315,
+  "dgp_v2_frozen": true,
+  "frequency_denominator": "cell_specific_oos_model_count",
+  "gate": "5.1",
+  "known_positive_rows": 100,
+  "method": "out_of_sample_only_candidate_scoring",
+  "model_frozen": true,
+  "oos_candidates_per_replicate": 5800,
+  "oos_model_count_max": 10,
+  "oos_model_count_mean": 9.206349206349206,
+  "oos_model_count_min": 4,
+  "oracle_used_for_scoring": false,
+  "oracle_used_for_training": false,
+  "oracle_values_loaded": false,
+  "primary_feature_set": "A",
+  "primary_feature_set_name": "A_non_geochemical",
+  "primary_model": "logistic_regression",
+  "replicate_top_10pct_count": 580,
+  "replicate_top_1pct_count": 58,
+  "replicate_top_5pct_count": 290,
+  "replicates": [
+    {
+      "model_seed": 12345,
+      "oos_candidate_rows": 5800,
+      "replicate": 0,
+      "seed": 12345,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 13345,
+      "oos_candidate_rows": 5800,
+      "replicate": 1,
+      "seed": 12346,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 14345,
+      "oos_candidate_rows": 5800,
+      "replicate": 2,
+      "seed": 12347,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 15345,
+      "oos_candidate_rows": 5800,
+      "replicate": 3,
+      "seed": 12348,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 16345,
+      "oos_candidate_rows": 5800,
+      "replicate": 4,
+      "seed": 12349,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 17345,
+      "oos_candidate_rows": 5800,
+      "replicate": 5,
+      "seed": 12350,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 18345,
+      "oos_candidate_rows": 5800,
+      "replicate": 6,
+      "seed": 12351,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 19345,
+      "oos_candidate_rows": 5800,
+      "replicate": 7,
+      "seed": 12352,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 20345,
+      "oos_candidate_rows": 5800,
+      "replicate": 8,
+      "seed": 12353,
+      "training_background_rows": 500,
+      "training_rows": 600
+    },
+    {
+      "model_seed": 21345,
+      "oos_candidate_rows": 5800,
+      "replicate": 9,
+      "seed": 12354,
+      "training_background_rows": 500,
+      "training_rows": 600
+    }
+  ],
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "selection_metric": "mean_spatial_oof_average_precision",
+  "training_rows_per_replicate": 600
+}
