@@ -1,5 +1,7 @@
 # LAB 02 - Spatial Exploratory Data Analysis
 
+**Status: Completed**
+
 ## Purpose
 
 This laboratory examines how uneven spatial sampling can distort the interpretation of exploratory geospatial data.
@@ -224,7 +226,7 @@ These elements are deferred so that sampling-density and aggregation effects can
 ## Current validation status
 
 - LAB 02 automated tests: 9 passed
-- Full project test suite: **24 passed**
+- Full project test suite at the LAB 02 validated checkpoint: **24 passed**
 - Monte Carlo realizations: 400
 - Grid evaluations: 4,800
 - Persisted realization-resolution records: 1,200

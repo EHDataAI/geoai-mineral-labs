@@ -12,9 +12,9 @@ This laboratory prioritizes **spatial correctness, interpretability, validation,
 
 ## Current status
 
-**Status: In progress — LAB 01A completed and validated**
+**Status: In progress - LAB 01A and LAB 01B completed and validated**
 
-The LAB 01 geospatial environment has been qualified on Python 3.12, and the first applied portfolio walkthrough has been completed.
+The LAB 01 geospatial environment has been qualified on Python 3.12, and the CRS-focused LAB 01A and LAB 01B portfolio walkthroughs have been completed and validated.
 
 LAB 01A currently demonstrates:
 
@@ -488,7 +488,7 @@ Applicable LAB 01 work should include:
 * documented limitations;
 * pre-commit validation;
 * Gitleaks scanning;
-* signed Git commits;
+* signed milestone commits;
 * Pull Request integration.
 
 For reusable components, automated tests are preferred over relying only on notebook output.
