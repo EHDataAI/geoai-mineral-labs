@@ -2,6 +2,15 @@
 
 **Status: Completed**
 
+## Public notebook walkthrough
+
+The executed public notebook [`05_mineral_prospectivity.ipynb`](05_mineral_prospectivity.ipynb)
+provides a portfolio-oriented scientific walkthrough of the validated Gates 0-6 workflow.
+
+The notebook reads persisted validated artifacts and does not reimplement the modelling
+pipeline or repeat model selection. The canonical experiment remains the tested Python
+workflow and its persisted evidence.
+
 ## Overview
 
 LAB05 implements an end-to-end synthetic mineral prospectivity experiment with explicit controls against spatial leakage, oracle leakage, evaluation contamination, and source drift.
