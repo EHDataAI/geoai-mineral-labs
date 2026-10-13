@@ -1,4 +1,6 @@
-# LAB03 — Spatial Cross-Validation
+# LAB03 - Spatial Cross-Validation
+
+**Status: Completed**
 
 ## Research question
 
@@ -273,20 +275,11 @@ Validated LAB03 checkpoints include:
 
 The notebook is already a validated artifact and should not be rebuilt solely because of README changes.
 
-## Publication boundary
+## Public portfolio status
 
-The private repository remains the canonical scientific and engineering implementation.
+LAB03 is included in the public GeoAI Mineral Labs portfolio because it uses synthetic data and demonstrates generic spatial-validation principles without real exploration data or proprietary feature engineering.
 
-A curated public version of LAB03 may subsequently be published because this laboratory:
-
-- uses synthetic data;
-- demonstrates generic spatial-validation principles;
-- contains no real mineral exploration data;
-- does not expose competitive mineral prospectivity ranking logic;
-- does not contain proprietary feature engineering.
-
-Any public release must still undergo a separate publication review before transfer to the public `Mining Geospatial Analytics` repository.
-
+The public laboratory preserves the methodological result, persisted evidence, validation design, limitations, and reproducible implementation needed to review the experiment.
 ## Key takeaway
 
 Spatial validation is not only a change in cross-validation syntax.
