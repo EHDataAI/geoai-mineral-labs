@@ -44,27 +44,27 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 
 ## Laboratory roadmap
 
-| Lab | Topic | Status |
+| Laboratory | Topic | Status |
 | --- | --- | --- |
-| LAB 00 | [Engineering & GeoAI Environment](labs/lab00_engineering_setup/README.md) | Completed |
-| LAB 01 | [Geospatial Python Foundations](labs/lab01_geospatial_foundations/README.md) | In progress |
-| LAB 02 | [Spatial Exploratory Data Analysis](labs/lab02_spatial_eda/README.md) | Completed |
-| LAB 03 | [Spatial Cross-Validation](labs/lab03_spatial_cross_validation/README.md) | Completed |
-| LAB 04 | [Geochemical Compositional Data Analysis](labs/lab04_geochemical_coda/README.md) | Completed |
-| LAB 05 | [Mineral Prospectivity Mapping](labs/lab05_mineral_prospectivity/README.md) | Completed |
-| LAB 06 | Explainable GeoAI | Planned |
-| LAB 07 | Uncertainty Quantification | Planned |
-| LAB 08 | Remote Sensing | Planned |
-| LAB 09 | Deep Learning for GeoAI | Planned |
-| LAB 10 | Graph & Multimodal GeoAI | Planned |
+| LABORATORY 00 | [Engineering & GeoAI Environment](labs/lab00_engineering_setup/README.md) | Completed |
+| LABORATORY 01 | [Geospatial Python Foundations](labs/lab01_geospatial_foundations/README.md) | In progress |
+| LABORATORY 02 | [Spatial Exploratory Data Analysis](labs/lab02_spatial_eda/README.md) | Completed |
+| LABORATORY 03 | [Spatial Cross-Validation](labs/lab03_spatial_cross_validation/README.md) | Completed |
+| LABORATORY 04 | [Geochemical Compositional Data Analysis](labs/lab04_geochemical_coda/README.md) | Completed |
+| LABORATORY 05 | [Mineral Prospectivity Mapping](labs/lab05_mineral_prospectivity/README.md) | Completed |
+| LABORATORY 06 | Explainable GeoAI | Planned |
+| LABORATORY 07 | Uncertainty Quantification | Planned |
+| LABORATORY 08 | Remote Sensing | Planned |
+| LABORATORY 09 | Deep Learning for GeoAI | Planned |
+| LABORATORY 10 | Graph & Multimodal GeoAI | Planned |
 
 The roadmap may evolve as new datasets, validation requirements, and modelling questions are introduced.
 
 ## Laboratory highlights
 
-### LAB 01 - Geospatial Python Foundations
+### LABORATORY 01 - Geospatial Python Foundations
 
-LAB 01 remains in progress, while its CRS-focused portfolio experiments are already completed and validated.
+LABORATORY 01 remains in progress, while its CRS-focused portfolio experiments are already completed and validated.
 
 The current work demonstrates:
 
@@ -77,9 +77,9 @@ The current work demonstrates:
 
 A central lesson is that a numerically valid spatial calculation may still be geographically invalid when CRS semantics are ignored.
 
-### LAB 02 - Spatial Exploratory Data Analysis
+### LABORATORY 02 - Spatial Exploratory Data Analysis
 
-LAB 02 studies how uneven spatial sampling can distort exploratory interpretation.
+LABORATORY 02 studies how uneven spatial sampling can distort exploratory interpretation.
 
 A controlled synthetic experiment separates:
 
@@ -89,17 +89,17 @@ A controlled synthetic experiment separates:
 
 The laboratory demonstrates why apparent hotspots can reflect sampling design rather than the underlying process and establishes the analytical motivation for spatially aware validation.
 
-### LAB 03 - Spatial Cross-Validation
+### LABORATORY 03 - Spatial Cross-Validation
 
-LAB 03 evaluates conventional Random K-Fold against Spatial Block Cross-Validation under controlled spatial autocorrelation.
+LABORATORY 03 evaluates conventional Random K-Fold against Spatial Block Cross-Validation under controlled spatial autocorrelation.
 
 The dataset, predictors, target, model, and model hyperparameters remain fixed so that the experiment isolates the effect of validation design.
 
 The laboratory demonstrates why geographically close observations in training and validation sets can produce optimistic error estimates and why validation design must reflect the intended spatial generalization problem.
 
-### LAB 04 - Geochemical Compositional Data Analysis
+### LABORATORY 04 - Geochemical Compositional Data Analysis
 
-LAB 04 implements a reproducible compositional-data workflow for synthetic geochemical observations.
+LABORATORY 04 implements a reproducible compositional-data workflow for synthetic geochemical observations.
 
 The analysis compares:
 
@@ -111,9 +111,9 @@ The analysis compares:
 
 The laboratory emphasizes the geometry of compositional data and the risks of interpreting constrained geochemical measurements using conventional Euclidean methods alone.
 
-### LAB 05 - Mineral Prospectivity Mapping
+### LABORATORY 05 - Mineral Prospectivity Mapping
 
-LAB 05 integrates geological, structural, geophysical, alteration, and geochemical evidence into an end-to-end synthetic mineral prospectivity experiment.
+LABORATORY 05 integrates geological, structural, geophysical, alteration, and geochemical evidence into an end-to-end synthetic mineral prospectivity experiment.
 
 The synthetic study area contains 6,400 one-square-kilometre cells in EPSG:32719.
 
@@ -181,7 +181,7 @@ The absolute Average Precision must be interpreted in the context of a low-preva
 
 The operational objective is spatial prioritization and search-space reduction rather than calibrated deposit detection.
 
-The LAB 05 experiment therefore emphasizes validation design, leakage prevention, reproducibility, and prospectivity ranking rather than maximizing a single headline metric.
+The LABORATORY 05 experiment therefore emphasizes validation design, leakage prevention, reproducibility, and prospectivity ranking rather than maximizing a single headline metric.
 
 ## Leakage and validation controls
 
@@ -197,7 +197,7 @@ The project progressively introduces controls against common sources of misleadi
 - post-evaluation model reselection;
 - source-code drift in generated experiment components.
 
-LAB 05 additionally applies:
+LABORATORY 05 additionally applies:
 
 - forbidden-feature contracts;
 - spatial group validation;
