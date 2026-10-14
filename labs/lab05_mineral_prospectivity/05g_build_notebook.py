@@ -381,7 +381,7 @@ def main() -> int:
                 else:
                     selected_index = tradeoff[ap_col].idxmax()
 
-                fig, ax = plt.subplots(figsize=(11.8, 6.7))
+                fig, ax = plt.subplots(figsize=(12.4, 6.7))
 
                 for index, row in tradeoff.iterrows():
                     is_selected = index == selected_index
@@ -400,36 +400,31 @@ def main() -> int:
 
                 selected = tradeoff.loc[selected_index]
 
-                ax.annotate(
-                    (
-                        "Selected model\\n"
-                        f"{selected['feature_set']} | "
-                        f"{selected['model_name']}\\n"
-                        f"AP = {float(selected[ap_col]):.3f}\\n"
-                        f"ROC-AUC = {float(selected[roc_col]):.3f}"
-                    ),
-                    xy=(
-                        selected[roc_col],
-                        selected[ap_col],
-                    ),
-                    xytext=(14, 10),
-                    textcoords="offset points",
+                selected_summary = (
+                    "Selected model\n"
+                    f"Feature set {selected['feature_set']} | "
+                    f"{selected['model_name'].title()}\n"
+                    f"AP = {float(selected[ap_col]):.3f} | "
+                    f"ROC-AUC = {float(selected[roc_col]):.3f}"
+                )
+
+                ax.text(
+                    1.03,
+                    0.98,
+                    selected_summary,
+                    transform=ax.transAxes,
                     ha="left",
-                    va="bottom",
-                    fontsize=9,
+                    va="top",
+                    fontsize=9.2,
                     color=INK,
+                    linespacing=1.35,
                     bbox={
-                        "boxstyle": "round,pad=0.35",
+                        "boxstyle": "round,pad=0.45",
                         "facecolor": "white",
-                        "edgecolor": "#8f8f8f",
-                        "linewidth": 0.8,
+                        "edgecolor": ACCENT,
+                        "linewidth": 1.2,
                     },
-                    arrowprops={
-                        "arrowstyle": "-",
-                        "color": "#8f8f8f",
-                        "linewidth": 0.8,
-                    },
-                    zorder=5,
+                    clip_on=False,
                 )
 
                 ax.set_title(
@@ -476,7 +471,7 @@ def main() -> int:
                     handles=feature_handles,
                     title="Evidence configuration",
                     loc="upper left",
-                    bbox_to_anchor=(1.02, 1.00),
+                    bbox_to_anchor=(1.03, 0.69),
                     borderaxespad=0.0,
                     frameon=False,
                 )
@@ -487,31 +482,33 @@ def main() -> int:
                     handles=model_handles,
                     title="Model family",
                     loc="upper left",
-                    bbox_to_anchor=(1.02, 0.55),
+                    bbox_to_anchor=(1.03, 0.42),
                     borderaxespad=0.0,
                     frameon=False,
                 )
 
+                reading_guide = (
+                    "Reading guide\n"
+                    "Up and right = stronger combined performance.\n"
+                    "Red outline = frozen selected model."
+                )
+
                 ax.text(
-                    1.02,
-                    0.16,
-                    (
-                        "Reading the chart\\n"
-                        "Up and right = stronger\\n"
-                        "combined performance.\\n\\n"
-                        "Red outline = frozen\\n"
-                        "selected model."
-                    ),
+                    1.03,
+                    0.13,
+                    reading_guide,
                     transform=ax.transAxes,
                     ha="left",
                     va="top",
-                    fontsize=9,
+                    fontsize=8.7,
                     color=MUTED,
+                    linespacing=1.35,
+                    clip_on=False,
                 )
 
                 fig.subplots_adjust(
                     left=0.09,
-                    right=0.72,
+                    right=0.64,
                     bottom=0.12,
                     top=0.90,
                 )
