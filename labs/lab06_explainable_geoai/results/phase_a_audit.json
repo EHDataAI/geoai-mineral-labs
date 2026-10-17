@@ -1,0 +1,75 @@
+{
+  "checks": {
+    "FROZEN_FEATURE_SET_A": "PASS",
+    "LAB05_CONTRACT_AUDIT": "PASS",
+    "MODEL_RECONSTRUCTION_CONTRACT": "PASS",
+    "ORACLE_ISOLATION": "PASS",
+    "SHAP_ENVIRONMENT_AUDIT": "PASS",
+    "SPATIAL_GROUP_CONTRACT": "PASS"
+  },
+  "evidence": {
+    "feature_columns": [
+      "lithology",
+      "distance_to_intrusive_m",
+      "intrusive_affinity",
+      "distance_to_fault_m",
+      "distance_to_fault_intersection_m",
+      "distance_to_contact_m",
+      "magnetic_anomaly",
+      "gravity_anomaly",
+      "alteration_index"
+    ],
+    "known_positives": 100,
+    "rows": 6400,
+    "spatial_groups": 64
+  },
+  "interpretation_constraints": [
+    "association_not_causation",
+    "no_model_reselection_from_explanations",
+    "no_hidden_oracle_tuning",
+    "prospectivity_score_not_calibrated_probability",
+    "correlated_predictor_attribution_requires_caution"
+  ],
+  "lab05": {
+    "crs": "EPSG:32719",
+    "grid_cells": 6400,
+    "oracle_loaded_for_phase_a": false,
+    "primary_feature_set": "A",
+    "primary_model": "logistic_regression",
+    "random_seed": 12345,
+    "selection_metric": "mean_spatial_oof_average_precision"
+  },
+  "laboratory": "LABORATORY 06",
+  "model_contract": {
+    "estimator": "LogisticRegression",
+    "max_iter": 2000,
+    "pipeline_steps": [
+      "preprocess",
+      "model"
+    ],
+    "preprocessor_transformers": [
+      "categorical",
+      "numerical"
+    ],
+    "random_state": 12345,
+    "solver": "liblinear"
+  },
+  "phase": "A",
+  "planned_xai_methods": [
+    "standardized_logistic_regression_coefficients",
+    "permutation_importance",
+    "shap_linear_explainer",
+    "local_shap_explanations",
+    "spatial_shap_maps",
+    "explanation_stability"
+  ],
+  "purpose": "lab05_contract_and_xai_feasibility_audit",
+  "runtime": {
+    "pandas": "3.0.6",
+    "python": "3.12.3",
+    "scikit_learn": "1.9.1",
+    "shap_installed": false,
+    "shap_version": null
+  },
+  "status": "READY"
+}
