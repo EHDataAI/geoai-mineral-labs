@@ -343,21 +343,21 @@ def main() -> int:
     cells.append(
         code(
             r"""
-            fig, ax = plt.subplots(figsize=(12.8, 4.0))
+            fig, ax = plt.subplots(figsize=(13.8, 4.4))
             ax.set_xlim(0, 1)
             ax.set_ylim(0, 1)
             ax.axis("off")
 
             stages = [
-                (0.025, "Frozen model", "Feature A\nLogistic Regression"),
-                (0.220, "Global evidence", "Coefficients\nPermutation\nSHAP"),
-                (0.415, "Local evidence", "Deterministic\nrank-tier cases"),
-                (0.610, "Spatial XAI", "OOS cell-level\ncontributions"),
-                (0.805, "Robustness", "Stability\nmethod agreement"),
+                (0.030, "Frozen model", "Feature A\nLogistic Regression"),
+                (0.215, "Global evidence", "Coefficients\nPermutation\nSHAP"),
+                (0.400, "Local evidence", "Deterministic\nrank-tier cases"),
+                (0.585, "Spatial XAI", "OOS cell-level\ncontributions"),
+                (0.770, "Robustness", "Stability\nmethod agreement"),
             ]
 
             for index, (x, title, subtitle) in enumerate(stages):
-                width = 0.13
+                width = 0.12
                 box = FancyBboxPatch(
                     (x, 0.36),
                     width,
@@ -416,10 +416,10 @@ def main() -> int:
                 pad=24,
             )
             fig.subplots_adjust(
-                left=0.04,
-                right=0.985,
-                top=0.82,
-                bottom=0.16,
+                left=0.045,
+                right=0.955,
+                top=0.80,
+                bottom=0.17,
             )
             plt.show()
             """
@@ -475,7 +475,7 @@ def main() -> int:
             comparison["label"] = comparison["feature"].map(pretty_feature)
             comparison = comparison.sort_values("shap_rank", ascending=False)
 
-            fig, ax = plt.subplots(figsize=(10.5, 6.5))
+            fig, ax = plt.subplots(figsize=(12.4, 6.5))
 
             y = np.arange(len(comparison))
 
@@ -517,22 +517,20 @@ def main() -> int:
                 loc="left",
                 pad=24,
             )
-            handles, labels = ax.get_legend_handles_labels()
-            fig.legend(
-                handles,
-                labels,
-                loc="lower center",
-                bbox_to_anchor=(0.5, 0.015),
-                ncol=3,
+            ax.legend(
+                loc="center left",
+                bbox_to_anchor=(1.02, 0.50),
+                ncol=1,
                 frameon=False,
-                columnspacing=1.8,
+                borderaxespad=0.0,
+                columnspacing=1.2,
                 handletextpad=0.6,
             )
             fig.subplots_adjust(
-                left=0.19,
-                right=0.98,
-                top=0.86,
-                bottom=0.16,
+                left=0.20,
+                right=0.79,
+                top=0.84,
+                bottom=0.12,
             )
             plt.show()
             """
@@ -942,7 +940,7 @@ def main() -> int:
                 np.cumsum(contributions[:-1]),
             ]
 
-            fig, ax = plt.subplots(figsize=(11.0, 5.9))
+            fig, ax = plt.subplots(figsize=(14.0, 6.2))
 
             x = np.arange(len(contributions))
 
@@ -993,22 +991,20 @@ def main() -> int:
                 loc="left",
                 pad=24,
             )
-            handles, labels = ax.get_legend_handles_labels()
-            fig.legend(
-                handles,
-                labels,
-                loc="lower center",
-                bbox_to_anchor=(0.5, 0.012),
-                ncol=2,
+            ax.legend(
+                loc="center left",
+                bbox_to_anchor=(1.015, 0.50),
+                ncol=1,
                 frameon=False,
-                columnspacing=1.8,
+                borderaxespad=0.0,
+                columnspacing=1.2,
                 handletextpad=0.6,
             )
             fig.subplots_adjust(
-                left=0.10,
-                right=0.985,
-                top=0.84,
-                bottom=0.32,
+                left=0.09,
+                right=0.76,
+                top=0.83,
+                bottom=0.25,
             )
             plt.show()
             """
@@ -1233,7 +1229,7 @@ def main() -> int:
                 pretty_feature
             )
 
-            fig, ax = plt.subplots(figsize=(10.0, 6.2))
+            fig, ax = plt.subplots(figsize=(12.4, 6.4))
 
             y = np.arange(len(stability_plot))
 
@@ -1295,21 +1291,22 @@ def main() -> int:
                     label="Sign stability < 80%",
                 ),
             ]
-            fig.legend(
+            ax.legend(
                 handles=legend,
-                loc="lower center",
-                bbox_to_anchor=(0.5, 0.015),
-                ncol=2,
+                loc="center left",
+                bbox_to_anchor=(1.02, 0.50),
+                ncol=1,
                 frameon=False,
-                columnspacing=1.8,
+                borderaxespad=0.0,
+                columnspacing=1.2,
                 handletextpad=0.6,
             )
 
             fig.subplots_adjust(
-                left=0.25,
-                right=0.98,
-                top=0.86,
-                bottom=0.16,
+                left=0.23,
+                right=0.78,
+                top=0.84,
+                bottom=0.12,
             )
             plt.show()
             """
