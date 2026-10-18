@@ -1,0 +1,28 @@
+{
+  "background_replicates": 10,
+  "causal_interpretation_allowed": false,
+  "coefficient_semantics": "standardized_numeric_and_one_hot_encoded_logistic_regression",
+  "laboratory": "LABORATORY 06",
+  "model": "logistic_regression",
+  "model_reselected": false,
+  "oracle_loaded": false,
+  "phase": "B",
+  "purpose": "baseline_interpretability",
+  "raw_feature_count": 9,
+  "status": "PASS",
+  "transformed_feature_count": 12,
+  "transformed_feature_names": [
+    "lithology_intrusive",
+    "lithology_sedimentary",
+    "lithology_volcanic",
+    "lithology_volcaniclastic",
+    "distance_to_intrusive_m",
+    "intrusive_affinity",
+    "distance_to_fault_m",
+    "distance_to_fault_intersection_m",
+    "distance_to_contact_m",
+    "magnetic_anomaly",
+    "gravity_anomaly",
+    "alteration_index"
+  ]
+}

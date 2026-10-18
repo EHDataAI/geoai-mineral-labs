@@ -129,3 +129,30 @@ LAB06_PHASE_A = READY
 
 `SHAP_ENVIRONMENT_AUDIT = PASS` means the environment was inspected
 successfully. The manifest records whether SHAP is currently installed.
+## Phase B - Frozen model reconstruction and baseline interpretability
+
+Phase B reconstructs the frozen LABORATORY 05 operational ensemble without
+changing model selection, feature selection, or oracle boundaries.
+
+The phase verifies that the ten deterministic background-replicate Logistic
+Regression models reproduce the persisted out-of-sample ranking evidence
+within a strict numerical tolerance.
+
+It also extracts the transformed feature space after preprocessing and
+summarizes Logistic Regression coefficients across the ten deterministic
+background replicates.
+
+Phase B artifacts:
+
+- `results/model_reconstruction_manifest.json`;
+- `results/reconstructed_oos_scores.csv`;
+- `results/transformed_coefficients.csv`;
+- `results/coefficient_summary.csv`;
+- `results/baseline_interpretability_manifest.json`.
+
+The coefficient analysis is an interpretability baseline, not a causal
+analysis. Numeric predictors are standardized inside the fitted pipeline and
+lithology is one-hot encoded.
+
+SHAP is intentionally deferred to Phase C so dependency changes do not occur
+before deterministic model reconstruction has been demonstrated.
