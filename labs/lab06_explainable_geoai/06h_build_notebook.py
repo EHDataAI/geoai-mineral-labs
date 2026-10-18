@@ -108,6 +108,7 @@ def main() -> int:
                     "axes.spines.right": False,
                     "axes.titleweight": "bold",
                     "axes.titlesize": 15,
+                    "axes.titlepad": 18,
                     "axes.labelsize": 10.5,
                     "font.size": 10.5,
                     "legend.frameon": False,
@@ -415,10 +416,10 @@ def main() -> int:
                 pad=10,
             )
             fig.subplots_adjust(
-                left=0.035,
-                right=0.975,
-                top=0.86,
-                bottom=0.12,
+                left=0.04,
+                right=0.98,
+                top=0.84,
+                bottom=0.14,
             )
             plt.show()
             """
@@ -513,14 +514,16 @@ def main() -> int:
             clean_axis(ax)
             ax.legend(
                 ncol=3,
-                bbox_to_anchor=(0, 1.02),
-                loc="lower left",
+                bbox_to_anchor=(0.5, -0.15),
+                loc="upper center",
+                frameon=False,
+                borderaxespad=0.0,
             )
             ax.set_title(
                 "Global importance rankings converge on the leading drivers",
                 loc="left",
             )
-            fig.tight_layout()
+            fig.subplots_adjust(top=0.88, bottom=0.20)
             plt.show()
             """
         )
@@ -976,16 +979,18 @@ def main() -> int:
             ax.grid(axis="y")
             ax.grid(axis="x", visible=False)
             ax.legend(
-                bbox_to_anchor=(0, 1.01),
-                loc="lower left",
+                bbox_to_anchor=(0.5, -0.19),
+                loc="upper center",
                 ncol=2,
+                frameon=False,
+                borderaxespad=0.0,
             )
             ax.set_title(
                 "Rank-1 candidate: cumulative local OOS contribution profile",
                 loc="left",
-                pad=38,
+                pad=18,
             )
-            fig.tight_layout()
+            fig.subplots_adjust(top=0.88, bottom=0.30)
             plt.show()
             """
         )
@@ -1248,7 +1253,7 @@ def main() -> int:
             ax.set_title(
                 "Leading drivers remain stable; lower-ranked drivers vary more",
                 loc="left",
-                pad=36,
+                pad=18,
             )
 
             legend = [
@@ -1273,12 +1278,14 @@ def main() -> int:
             ]
             ax.legend(
                 handles=legend,
-                bbox_to_anchor=(0, 1.01),
-                loc="lower left",
+                bbox_to_anchor=(0.5, -0.16),
+                loc="upper center",
                 ncol=2,
+                frameon=False,
+                borderaxespad=0.0,
             )
 
-            fig.tight_layout()
+            fig.subplots_adjust(top=0.88, bottom=0.22)
             plt.show()
             """
         )

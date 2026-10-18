@@ -41,5 +41,8 @@
     "global_method_agreement",
     "local_case_summary",
     "stability_summary"
-  ]
+  ],
+  "title_spacing_policy": "Reserve explicit whitespace between figure titles and analytical marks; the default Matplotlib title pad is standardized at 18 points.",
+  "legend_placement_policy": "Legends must not overlap titles or data marks. Prefer an external lower band for compact categorical legends; use an external right band for spatial maps when that preserves the map field.",
+  "manual_visual_gate": "Review every rendered figure for clipping, title breathing room, legend collision, axis-label truncation, and GitHub rendering before merge."
 }
