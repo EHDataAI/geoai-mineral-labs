@@ -349,10 +349,10 @@ def main() -> int:
 
             stages = [
                 (0.03, "Frozen model", "Feature A\nLogistic Regression"),
-                (0.24, "Global evidence", "Coefficients\nPermutation\nSHAP"),
-                (0.46, "Local evidence", "Deterministic\nrank-tier cases"),
-                (0.67, "Spatial XAI", "OOS cell-level\ncontributions"),
-                (0.86, "Robustness", "Stability\nmethod agreement"),
+                (0.235, "Global evidence", "Coefficients\nPermutation\nSHAP"),
+                (0.44, "Local evidence", "Deterministic\nrank-tier cases"),
+                (0.645, "Spatial XAI", "OOS cell-level\ncontributions"),
+                (0.835, "Robustness", "Stability\nmethod agreement"),
             ]
 
             for index, (x, title, subtitle) in enumerate(stages):
@@ -414,7 +414,12 @@ def main() -> int:
                 loc="left",
                 pad=10,
             )
-            fig.tight_layout()
+            fig.subplots_adjust(
+                left=0.035,
+                right=0.975,
+                top=0.86,
+                bottom=0.12,
+            )
             plt.show()
             """
         )
