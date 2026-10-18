@@ -1,0 +1,18 @@
+{
+  "code_cells": 16,
+  "error_outputs": 0,
+  "github_rendering_review_required_before_merge": true,
+  "laboratory": "LABORATORY 06",
+  "manual_visual_review_required_before_merge": true,
+  "markdown_cells": 14,
+  "maximum_notebook_bytes": 5242880,
+  "minimum_png_outputs": 10,
+  "model_reselected": false,
+  "notebook": "06_explainable_geoai.ipynb",
+  "notebook_bytes": 1899050,
+  "oracle_loaded": false,
+  "phase": "F",
+  "png_outputs": 10,
+  "sha256": "59876853e9ba53fa4067617535cbae83cf642ccfa9fdffec07a09d49b84da451",
+  "status": "PASS"
+}
