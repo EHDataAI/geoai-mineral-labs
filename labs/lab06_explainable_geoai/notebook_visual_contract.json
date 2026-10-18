@@ -11,12 +11,15 @@
     "avoid_raw_dataframe_dump": true
   },
   "visual_rules": [
-    "white_background",
+    "warm_neutral_background",
+    "trust_blue_for_structure_and_rigor",
+    "coral_reserved_for_attention_and_positive_highlights",
+    "blue_to_coral_diverging_scale_for_signed_attribution",
+    "stable_method_and_driver_family_color_semantics",
     "concise_titles",
     "no_clipped_labels",
     "external_legends_when_dense",
     "consistent_driver_family_palette",
-    "dark_red_reserved_for_key_highlights",
     "no_default_shap_plot_if_editorially_inferior",
     "captions_explain_takeaway_not_only_chart_type",
     "github_rendering_must_be_checked"

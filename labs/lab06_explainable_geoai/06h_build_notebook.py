@@ -57,9 +57,10 @@ def main() -> int:
             **Frozen model -> global drivers -> local explanations -> spatial
             attribution -> stability -> scientific interpretation**
 
-            The visual system is deliberately restrained: a white background,
-            concise titles, consistent driver-family colors, direct annotation,
-            and a dark-red accent reserved for the main analytical signal.
+            The visual system uses a warm-neutral analytical canvas, trust-blue
+            structure, and a restrained coral accent for the primary insight.
+            Diverging attribution plots reuse the same blue-to-coral semantics,
+            while driver families keep stable categorical colors throughout.
             """
         )
     )
@@ -74,6 +75,7 @@ def main() -> int:
             import numpy as np
             import pandas as pd
             from IPython.display import HTML, display
+            from matplotlib.colors import LinearSegmentedColormap
             from matplotlib.lines import Line2D
             from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
             from matplotlib.ticker import MaxNLocator
@@ -98,9 +100,9 @@ def main() -> int:
 
             plt.rcParams.update(
                 {
-                    "figure.facecolor": "white",
-                    "axes.facecolor": "white",
-                    "axes.edgecolor": "#c4c4c4",
+                    "figure.facecolor": "#F7F5F2",
+                    "axes.facecolor": "#F7F5F2",
+                    "axes.edgecolor": "#B8C2CC",
                     "axes.linewidth": 0.8,
                     "axes.spines.top": False,
                     "axes.spines.right": False,
@@ -109,31 +111,55 @@ def main() -> int:
                     "axes.labelsize": 10.5,
                     "font.size": 10.5,
                     "legend.frameon": False,
-                    "grid.color": "#e3e3e3",
+                    "grid.color": "#D9E2EC",
                     "grid.linewidth": 0.7,
-                    "grid.alpha": 0.7,
+                    "grid.alpha": 0.48,
                     "figure.dpi": 120,
                     "savefig.dpi": 150,
                 }
             )
 
-            INK = "#202124"
-            MUTED = "#6b7280"
-            LIGHT = "#e8eaed"
-            ACCENT = "#9f1d20"
-            ACCENT_SOFT = "#d9a4a6"
-            STEEL = "#526d82"
-            BLUE = "#3f6f91"
-            NEGATIVE = "#4f7188"
-            POSITIVE = "#a12a2d"
+            BG = "#F7F5F2"
+            PANEL = "#EFEAE4"
+            INK = "#1F2933"
+            MUTED = "#7B8794"
+            GRID = "#D9E2EC"
+            TRUST = "#355C7D"
+            TRUST_DARK = "#243B53"
+            ACCENT = "#C44536"
+            ACCENT_DARK = "#9E2F25"
+            ACCENT_SOFT = "#E5B5AE"
+            TEAL = "#3C7E74"
+            OCHRE = "#C49A3A"
+            STONE = "#8D7F70"
+            NEUTRAL = "#D8D2CB"
+            STEEL = TRUST
+            NEGATIVE = "#4C78A8"
+            POSITIVE = ACCENT
+
+            METHOD_COLORS = {
+                "Coefficient": STONE,
+                "Permutation": "#5F7D95",
+                "SHAP": ACCENT,
+            }
 
             FAMILY_COLORS = {
-                "intrusive": "#9f1d20",
-                "structure": "#526d82",
-                "lithology": "#7c6f64",
-                "alteration": "#b98242",
-                "geophysics": "#59796d",
+                "intrusive": ACCENT,
+                "structure": "#5F7D95",
+                "lithology": STONE,
+                "alteration": OCHRE,
+                "geophysics": TEAL,
             }
+
+            XAI_DIVERGING = LinearSegmentedColormap.from_list(
+                "xai_diverging",
+                [NEGATIVE, BG, ACCENT],
+            )
+
+            RANK_SEQUENTIAL = LinearSegmentedColormap.from_list(
+                "rank_sequential",
+                ["#F6EFE7", "#E9B872", "#D97706", "#B23A2B"],
+            )
 
             FEATURE_LABELS = {
                 "lithology": "Lithology",
@@ -193,23 +219,25 @@ def main() -> int:
                     margin: 8px 0 4px 0;
                 }
                 .portfolio-table thead th {
-                    background: #202124;
-                    color: white;
+                    background: #243B53;
+                    color: #FFFFFF;
                     font-weight: 600;
                     padding: 8px 10px;
                     text-align: left;
                     border: 0;
                 }
                 .portfolio-table tbody td {
+                    background: #F7F5F2;
+                    color: #1F2933;
                     padding: 7px 10px;
-                    border-bottom: 1px solid #e5e7eb;
+                    border-bottom: 1px solid #D9E2EC;
                     vertical-align: top;
                 }
-                .portfolio-table tbody tr:nth-child(even) {
-                    background: #f8f9fa;
+                .portfolio-table tbody tr:nth-child(even) td {
+                    background: #EFEAE4;
                 }
-                .portfolio-table tbody tr:hover {
-                    background: #f1f3f4;
+                .portfolio-table tbody tr:hover td {
+                    background: #E7EDF2;
                 }
                 </style>
                 '''
@@ -334,8 +362,8 @@ def main() -> int:
                     width,
                     0.34,
                     boxstyle="round,pad=0.015,rounding_size=0.02",
-                    facecolor="#f7f7f7" if index != 4 else "#f4e7e7",
-                    edgecolor=ACCENT if index == 4 else "#b9bec4",
+                    facecolor=PANEL if index != 4 else "#F3DFDC",
+                    edgecolor=ACCENT if index == 4 else TRUST,
                     linewidth=1.4,
                 )
                 ax.add_patch(box)
@@ -367,7 +395,7 @@ def main() -> int:
                         arrowstyle="-|>",
                         mutation_scale=12,
                         linewidth=1.1,
-                        color="#8a8f94",
+                        color=TRUST,
                     )
                     ax.add_patch(arrow)
 
@@ -421,9 +449,21 @@ def main() -> int:
             comparison = rank_agreement.copy()
 
             methods = [
-                ("coefficient_rank", "Coefficient", "#7c6f64"),
-                ("permutation_rank", "Permutation", STEEL),
-                ("shap_rank", "SHAP", ACCENT),
+                (
+                    "coefficient_rank",
+                    "Coefficient",
+                    METHOD_COLORS["Coefficient"],
+                ),
+                (
+                    "permutation_rank",
+                    "Permutation",
+                    METHOD_COLORS["Permutation"],
+                ),
+                (
+                    "shap_rank",
+                    "SHAP",
+                    METHOD_COLORS["SHAP"],
+                ),
             ]
 
             comparison["label"] = comparison["feature"].map(pretty_feature)
@@ -443,7 +483,7 @@ def main() -> int:
                 ax.plot(
                     [min(scores), max(scores)],
                     [position, position],
-                    color="#d7d9dc",
+                    color=NEUTRAL,
                     linewidth=1.2,
                     zorder=1,
                 )
@@ -499,7 +539,9 @@ def main() -> int:
                 color=[
                     ACCENT
                     if feature == "intrusive_affinity"
-                    else STEEL
+                    else TRUST
+                    if feature == "lithology"
+                    else "#7890A4"
                     for feature in global_plot["raw_feature"]
                 ],
                 alpha=0.95,
@@ -649,7 +691,7 @@ def main() -> int:
                     subset["shap_value"],
                     y_index + jitter,
                     c=color_value,
-                    cmap="coolwarm",
+                    cmap=XAI_DIVERGING,
                     vmin=0,
                     vmax=1,
                     s=15,
@@ -752,7 +794,7 @@ def main() -> int:
             image = ax.imshow(
                 matrix,
                 aspect="auto",
-                cmap="YlOrRd_r",
+                cmap=RANK_SEQUENTIAL.reversed(),
                 vmin=1,
                 vmax=9,
             )
@@ -911,31 +953,32 @@ def main() -> int:
 
             ax.axhline(
                 base_value,
-                color="#90959a",
+                color=MUTED,
                 linestyle="--",
-                linewidth=1,
+                linewidth=1.1,
                 label=f"Mean base value {base_value:.2f}",
             )
             ax.axhline(
                 decision_value,
-                color=ACCENT,
-                linewidth=1.4,
+                color=ACCENT_DARK,
+                linewidth=1.6,
                 label=f"Mean explained log-odds {decision_value:.2f}",
             )
 
             ax.set_xticks(x)
-            ax.set_xticklabels(labels, rotation=38, ha="right")
+            ax.set_xticklabels(labels, rotation=34, ha="right")
             ax.set_ylabel("Model log-odds")
             ax.grid(axis="y")
             ax.grid(axis="x", visible=False)
             ax.legend(
-                bbox_to_anchor=(0, 1.02),
+                bbox_to_anchor=(0, 1.01),
                 loc="lower left",
                 ncol=2,
             )
             ax.set_title(
                 "Rank-1 candidate: cumulative local OOS contribution profile",
                 loc="left",
+                pad=38,
             )
             fig.tight_layout()
             plt.show()
@@ -976,7 +1019,7 @@ def main() -> int:
             image = ax.imshow(
                 heat.to_numpy(),
                 aspect="auto",
-                cmap="RdBu_r",
+                cmap=XAI_DIVERGING,
                 vmin=-limit,
                 vmax=limit,
             )
@@ -1103,7 +1146,7 @@ def main() -> int:
                 map_frame["Easting"],
                 map_frame["Northing"],
                 c=map_frame["mean_signed_shap"],
-                cmap="RdBu_r",
+                cmap=XAI_DIVERGING,
                 vmin=-limit,
                 vmax=limit,
                 s=20,
@@ -1170,8 +1213,8 @@ def main() -> int:
                 y,
                 xerr=stability_plot["rank_std"],
                 fmt="o",
-                color=STEEL,
-                ecolor="#b8bec4",
+                color=TRUST,
+                ecolor=NEUTRAL,
                 elinewidth=2.0,
                 capsize=3,
                 markersize=6,
@@ -1200,6 +1243,7 @@ def main() -> int:
             ax.set_title(
                 "Leading drivers remain stable; lower-ranked drivers vary more",
                 loc="left",
+                pad=36,
             )
 
             legend = [
@@ -1208,8 +1252,8 @@ def main() -> int:
                     [0],
                     marker="o",
                     color="none",
-                    markerfacecolor=STEEL,
-                    markeredgecolor=STEEL,
+                    markerfacecolor=TRUST,
+                    markeredgecolor=TRUST,
                     label="Mean rank",
                 ),
                 Line2D(
@@ -1224,7 +1268,7 @@ def main() -> int:
             ]
             ax.legend(
                 handles=legend,
-                bbox_to_anchor=(0, 1.02),
+                bbox_to_anchor=(0, 1.01),
                 loc="lower left",
                 ncol=2,
             )
