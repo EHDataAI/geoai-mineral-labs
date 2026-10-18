@@ -1,0 +1,41 @@
+{
+  "absolute_tolerance": 1e-12,
+  "background_replicates": 10,
+  "candidate_rows": 6300,
+  "evidence_rows": 6400,
+  "feature_columns": [
+    "lithology",
+    "distance_to_intrusive_m",
+    "intrusive_affinity",
+    "distance_to_fault_m",
+    "distance_to_fault_intersection_m",
+    "distance_to_contact_m",
+    "magnetic_anomaly",
+    "gravity_anomaly",
+    "alteration_index"
+  ],
+  "laboratory": "LABORATORY 06",
+  "maximum_absolute_differences": {
+    "oos_replicate_rank_mean": 4.547473508864641e-13,
+    "oos_replicate_rank_std": 1.1368683772161603e-13,
+    "oos_top_10pct_frequency": 5.551115123125783e-17,
+    "oos_top_1pct_frequency": 5.551115123125783e-17,
+    "oos_top_5pct_frequency": 5.551115123125783e-17,
+    "prospectivity_score_oos_iqr": 9.974659986866641e-17,
+    "prospectivity_score_oos_mean": 9.71445146547012e-17,
+    "prospectivity_score_oos_median": 9.71445146547012e-17,
+    "prospectivity_score_oos_p25": 9.71445146547012e-17,
+    "prospectivity_score_oos_p75": 9.71445146547012e-17,
+    "prospectivity_score_oos_std": 9.974659986866641e-17
+  },
+  "model_reselected": false,
+  "oracle_loaded": false,
+  "oracle_used_for_scoring": false,
+  "oracle_used_for_training": false,
+  "phase": "B",
+  "primary_feature_set": "A",
+  "primary_model": "logistic_regression",
+  "purpose": "deterministic_frozen_model_reconstruction",
+  "reference_artifact": "labs/lab05_mineral_prospectivity/results/prospectivity_scores_oos.csv",
+  "status": "PASS"
+}
