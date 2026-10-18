@@ -1,0 +1,42 @@
+{
+  "laboratory": "LABORATORY 06",
+  "notebook": "06_explainable_geoai.ipynb",
+  "status": "design_locked",
+  "editorial_goal": "publication_ready_explainable_geoai_portfolio_notebook",
+  "figure_budget": 10,
+  "table_style": {
+    "alignment": "numeric_right_text_left",
+    "precision": "context_specific_and_consistent",
+    "notes": "methodological_notes_below_table",
+    "avoid_raw_dataframe_dump": true
+  },
+  "visual_rules": [
+    "white_background",
+    "concise_titles",
+    "no_clipped_labels",
+    "external_legends_when_dense",
+    "consistent_driver_family_palette",
+    "dark_red_reserved_for_key_highlights",
+    "no_default_shap_plot_if_editorially_inferior",
+    "captions_explain_takeaway_not_only_chart_type",
+    "github_rendering_must_be_checked"
+  ],
+  "planned_core_figures": [
+    "frozen_model_pipeline",
+    "coefficient_importance",
+    "permutation_importance",
+    "coefficient_vs_permutation",
+    "global_shap_importance",
+    "publication_shap_beeswarm",
+    "local_waterfall",
+    "spatial_feature_contribution_map",
+    "dominant_driver_map",
+    "explanation_stability"
+  ],
+  "planned_core_tables": [
+    "frozen_model_contract",
+    "global_method_agreement",
+    "local_case_summary",
+    "stability_summary"
+  ]
+}

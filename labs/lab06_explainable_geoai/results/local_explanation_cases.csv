@@ -1,0 +1,6 @@
+case_label,selection_rule,cell_id,Easting,Northing,candidate_rank,prospectivity_score_oos_mean,oos_model_count
+top_candidate,candidate_rank_equals_1,3876,386500.0,7148500.0,1,0.6855745657825515,8
+top_1pct_boundary,candidate_rank_equals_63,4774,404500.0,7159500.0,63,0.5777317035713033,10
+top_5pct_boundary,candidate_rank_equals_315,4106,376500.0,7151500.0,315,0.4692870368234195,10
+median_candidate,candidate_rank_equals_3150,1501,411500.0,7118500.0,3150,0.0884334980008029,8
+lowest_candidate,candidate_rank_equals_6300,6079,429500.0,7175500.0,6300,0.0280820208734193,9

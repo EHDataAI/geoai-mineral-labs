@@ -35,6 +35,7 @@ dependencies:
   # Explainability
   - pip:
       - shap==0.53.0
+      - ruff==0.17.1
 
   # Testing
   - pytest=9.1.*

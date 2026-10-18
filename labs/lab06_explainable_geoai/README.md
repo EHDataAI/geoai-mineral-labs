@@ -170,3 +170,22 @@ SHAP values are evaluated in Logistic Regression log-odds space and must pass
 a numerical additivity check. Coefficients, permutation importance, and SHAP
 are treated as complementary evidence because correlated predictors can share
 or redistribute attribution. None of these methods is interpreted causally.
+## Phase D - Local and spatial explainability
+
+Phase D extends the frozen OOS explanation contract from global attribution to
+candidate-specific and spatial interpretation.
+
+Five representative local cases are selected only by predeclared candidate
+rank rules: rank 1, the top-1% boundary, the top-5% boundary, the median
+candidate, and rank 6300. No local example is selected because it produces a
+visually convenient explanation.
+
+For every candidate cell, SHAP contributions are aggregated only across the
+background-replicate models for which that cell was out of sample. This keeps
+the explanation population aligned with the operational LABORATORY 05
+prospectivity score.
+
+The spatial artifacts expose both the dominant raw feature and a higher-level
+driver family: lithology, intrusive context, structure, geophysics, or
+alteration. Dominance is descriptive rather than causal and is based on mean
+absolute OOS SHAP contribution.
