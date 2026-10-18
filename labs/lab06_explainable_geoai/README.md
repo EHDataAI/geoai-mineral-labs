@@ -213,3 +213,29 @@ The analysis reports:
 Agreement is treated as supporting evidence of interpretive robustness, not as
 proof of causality. Disagreement is retained as scientific information rather
 than normalized away.
+## Phase F - Executed public notebook candidate
+
+Phase F assembles the validated Phase A-E evidence into the executed public
+`06_explainable_geoai.ipynb` notebook.
+
+The notebook is intentionally presentation-grade rather than a raw collection
+of diagnostic plots. It contains ten coordinated figures and four compact
+publication-style tables spanning:
+
+- the frozen explanation contract;
+- coefficient, permutation, and SHAP global evidence;
+- cross-method rank agreement;
+- deterministic local explanations;
+- spatial dominant-driver regimes;
+- feature-specific spatial attribution;
+- explanation stability across background replicates;
+- scientific interpretation and publication boundaries.
+
+The executed notebook must pass structural QA, embedded-output QA, Ruff on new
+code, the full regression suite, pre-commit, Gitleaks, and the repository
+large-file policy.
+
+A passing automated QA result does not authorize immediate merge. Phase F also
+requires a manual visual review of figure composition, text clipping, legends,
+table rendering, notebook narrative flow, and GitHub rendering before the
+laboratory is marked complete.
