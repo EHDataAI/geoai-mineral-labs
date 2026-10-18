@@ -1,0 +1,17 @@
+{
+  "causal_interpretation_allowed": false,
+  "laboratory": "LABORATORY 06",
+  "method": "deterministic_local_oos_shap",
+  "model_reselected": false,
+  "oracle_loaded": false,
+  "phase": "D",
+  "selected_case_count": 5,
+  "selection_rules": {
+    "lowest_candidate": 6300,
+    "median_candidate": 3150,
+    "top_1pct_boundary": 63,
+    "top_5pct_boundary": 315,
+    "top_candidate": 1
+  },
+  "status": "PASS"
+}

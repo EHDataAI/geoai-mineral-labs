@@ -1,0 +1,23 @@
+{
+  "blocking_scope": [
+    "labs/lab06_explainable_geoai/06f_build_local_spatial_explanations.py",
+    "tests/test_lab06_phase_d.py"
+  ],
+  "blocking_scope_findings": 0,
+  "legacy_affected_files": 56,
+  "legacy_codes": {
+    "F401": 2,
+    "I001": 54,
+    "PIE810": 1,
+    "RUF046": 33,
+    "RUF059": 4,
+    "TRY004": 2,
+    "UP035": 1
+  },
+  "legacy_total_findings": 97,
+  "mass_legacy_autofix_not_applied": true,
+  "policy": "legacy_findings_recorded_non_blocking_phase_d_new_code_zero_findings",
+  "remediation_strategy": "dedicated_hygiene_pr_with_regression_validation",
+  "status": "BASELINED",
+  "unsafe_autofix_not_applied": true
+}
