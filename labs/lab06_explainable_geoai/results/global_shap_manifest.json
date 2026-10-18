@@ -1,0 +1,21 @@
+{
+  "additivity_tolerance": 1e-08,
+  "background_replicates": 10,
+  "causal_interpretation_allowed": false,
+  "correlated_predictor_attribution_requires_caution": true,
+  "laboratory": "LABORATORY 06",
+  "maximum_additivity_error": 1.3322676295501878e-15,
+  "method": "linear_shap_oos_operational_ensemble",
+  "model_reselected": false,
+  "oos_candidates_per_replicate": 5800,
+  "oracle_loaded": false,
+  "output_space": "log_odds",
+  "phase": "C",
+  "raw_feature_count": 9,
+  "sample_per_replicate": 100,
+  "sample_rows_long": 12000,
+  "shap_version": "0.53.0",
+  "status": "PASS",
+  "total_oos_explanations": 58000,
+  "transformed_feature_count": 12
+}

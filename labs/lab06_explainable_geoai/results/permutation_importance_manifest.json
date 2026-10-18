@@ -1,0 +1,15 @@
+{
+  "correlated_predictor_caution": true,
+  "feature_set": "A",
+  "laboratory": "LABORATORY 06",
+  "method": "spatial_held_out_permutation_importance",
+  "model": "logistic_regression",
+  "model_reselected": false,
+  "observed_spatial_fits": 50,
+  "oracle_loaded": false,
+  "permutation_repeats": 8,
+  "phase": "C",
+  "scoring": "average_precision",
+  "spatial_group_overlap_max": 0,
+  "status": "PASS"
+}
