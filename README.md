@@ -234,7 +234,8 @@ geoai-mineral-labs/
 |   |-- lab02_spatial_eda/
 |   |-- lab03_spatial_cross_validation/
 |   |-- lab04_geochemical_coda/
-|   `-- lab05_mineral_prospectivity/
+|   |-- lab05_mineral_prospectivity/
+|   `-- lab06_explainable_geoai/
 |-- scripts/
 |-- src/
 |   `-- geoai/
@@ -253,20 +254,20 @@ Version `0.2.0` marks the transition from the initial engineering and geospatial
 - mineral prospectivity benchmarking;
 - pooled out-of-fold model evaluation;
 - out-of-sample candidate ranking;
-- final hidden-oracle evaluation.
+- final hidden-oracle evaluation;
+- explainable GeoAI with global, local, spatial, and stability analysis.
 
-The project remains pre-1.0 while advanced GeoAI capabilities such as explainability, uncertainty quantification, remote sensing, deep learning, and multimodal methods remain on the development roadmap.
+The project remains pre-1.0 while advanced GeoAI capabilities such as uncertainty quantification, remote sensing, deep learning, and multimodal methods remain on the development roadmap.
 
 ## Next steps
 
 Planned development includes:
 
-1. Explainable GeoAI.
-2. Spatial uncertainty quantification.
-3. Remote sensing integration.
-4. Deep learning for geospatial mineral exploration.
-5. Graph and multimodal GeoAI.
-6. Evaluation of geographic distribution shift and model robustness across spatial domains.
+1. Spatial uncertainty quantification.
+2. Remote sensing integration.
+3. Deep learning for geospatial mineral exploration.
+4. Graph and multimodal GeoAI.
+5. Evaluation of geographic distribution shift and model robustness across spatial domains.
 
 ## Scope and limitations
 
