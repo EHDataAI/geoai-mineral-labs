@@ -9,10 +9,10 @@
   "minimum_png_outputs": 10,
   "model_reselected": false,
   "notebook": "06_explainable_geoai.ipynb",
-  "notebook_bytes": 1883878,
+  "notebook_bytes": 1891573,
   "oracle_loaded": false,
   "phase": "F",
   "png_outputs": 10,
-  "sha256": "922d05ed7432a367bc67e0cc7ac712075d7a35670a591094f5743e7852a87e31",
+  "sha256": "ddfda766b706c1b88d0e9dcf4349d64a3806ed9adc8333170a1e1972bef9c529",
   "status": "PASS"
 }

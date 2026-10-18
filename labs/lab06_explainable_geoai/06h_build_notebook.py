@@ -343,21 +343,21 @@ def main() -> int:
     cells.append(
         code(
             r"""
-            fig, ax = plt.subplots(figsize=(11.5, 3.4))
+            fig, ax = plt.subplots(figsize=(12.8, 4.0))
             ax.set_xlim(0, 1)
             ax.set_ylim(0, 1)
             ax.axis("off")
 
             stages = [
-                (0.03, "Frozen model", "Feature A\nLogistic Regression"),
-                (0.235, "Global evidence", "Coefficients\nPermutation\nSHAP"),
-                (0.44, "Local evidence", "Deterministic\nrank-tier cases"),
-                (0.645, "Spatial XAI", "OOS cell-level\ncontributions"),
-                (0.835, "Robustness", "Stability\nmethod agreement"),
+                (0.025, "Frozen model", "Feature A\nLogistic Regression"),
+                (0.220, "Global evidence", "Coefficients\nPermutation\nSHAP"),
+                (0.415, "Local evidence", "Deterministic\nrank-tier cases"),
+                (0.610, "Spatial XAI", "OOS cell-level\ncontributions"),
+                (0.805, "Robustness", "Stability\nmethod agreement"),
             ]
 
             for index, (x, title, subtitle) in enumerate(stages):
-                width = 0.14
+                width = 0.13
                 box = FancyBboxPatch(
                     (x, 0.36),
                     width,
@@ -413,13 +413,13 @@ def main() -> int:
             ax.set_title(
                 "Explainability architecture preserves the frozen OOS contract",
                 loc="left",
-                pad=10,
+                pad=24,
             )
             fig.subplots_adjust(
                 left=0.04,
-                right=0.98,
-                top=0.84,
-                bottom=0.14,
+                right=0.985,
+                top=0.82,
+                bottom=0.16,
             )
             plt.show()
             """
@@ -512,18 +512,28 @@ def main() -> int:
             ax.set_xlim(0.5, 9.5)
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
             clean_axis(ax)
-            ax.legend(
-                ncol=3,
-                bbox_to_anchor=(0.5, -0.15),
-                loc="upper center",
-                frameon=False,
-                borderaxespad=0.0,
-            )
             ax.set_title(
                 "Global importance rankings converge on the leading drivers",
                 loc="left",
+                pad=24,
             )
-            fig.subplots_adjust(top=0.88, bottom=0.20)
+            handles, labels = ax.get_legend_handles_labels()
+            fig.legend(
+                handles,
+                labels,
+                loc="lower center",
+                bbox_to_anchor=(0.5, 0.015),
+                ncol=3,
+                frameon=False,
+                columnspacing=1.8,
+                handletextpad=0.6,
+            )
+            fig.subplots_adjust(
+                left=0.19,
+                right=0.98,
+                top=0.86,
+                bottom=0.16,
+            )
             plt.show()
             """
         )
@@ -978,19 +988,28 @@ def main() -> int:
             ax.set_ylabel("Model log-odds")
             ax.grid(axis="y")
             ax.grid(axis="x", visible=False)
-            ax.legend(
-                bbox_to_anchor=(0.5, -0.19),
-                loc="upper center",
-                ncol=2,
-                frameon=False,
-                borderaxespad=0.0,
-            )
             ax.set_title(
                 "Rank-1 candidate: cumulative local OOS contribution profile",
                 loc="left",
-                pad=18,
+                pad=24,
             )
-            fig.subplots_adjust(top=0.88, bottom=0.30)
+            handles, labels = ax.get_legend_handles_labels()
+            fig.legend(
+                handles,
+                labels,
+                loc="lower center",
+                bbox_to_anchor=(0.5, 0.012),
+                ncol=2,
+                frameon=False,
+                columnspacing=1.8,
+                handletextpad=0.6,
+            )
+            fig.subplots_adjust(
+                left=0.10,
+                right=0.985,
+                top=0.84,
+                bottom=0.32,
+            )
             plt.show()
             """
         )
@@ -1253,7 +1272,7 @@ def main() -> int:
             ax.set_title(
                 "Leading drivers remain stable; lower-ranked drivers vary more",
                 loc="left",
-                pad=18,
+                pad=24,
             )
 
             legend = [
@@ -1276,16 +1295,22 @@ def main() -> int:
                     label="Sign stability < 80%",
                 ),
             ]
-            ax.legend(
+            fig.legend(
                 handles=legend,
-                bbox_to_anchor=(0.5, -0.16),
-                loc="upper center",
+                loc="lower center",
+                bbox_to_anchor=(0.5, 0.015),
                 ncol=2,
                 frameon=False,
-                borderaxespad=0.0,
+                columnspacing=1.8,
+                handletextpad=0.6,
             )
 
-            fig.subplots_adjust(top=0.88, bottom=0.22)
+            fig.subplots_adjust(
+                left=0.25,
+                right=0.98,
+                top=0.86,
+                bottom=0.16,
+            )
             plt.show()
             """
         )
