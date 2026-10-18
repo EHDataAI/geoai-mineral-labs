@@ -189,3 +189,27 @@ The spatial artifacts expose both the dominant raw feature and a higher-level
 driver family: lithology, intrusive context, structure, geophysics, or
 alteration. Dominance is descriptive rather than causal and is based on mean
 absolute OOS SHAP contribution.
+## Phase E - Explanation stability and method agreement
+
+Phase E evaluates whether the frozen LABORATORY 06 explanations are robust
+across the ten background-replicate models and whether the principal
+importance rankings agree across complementary interpretation methods.
+
+The stability analysis recomputes OOS SHAP attribution for every replicate
+using the same 600-row replicate-specific training background and the same
+5,800 eligible candidate cells used by the frozen LABORATORY 05 scoring
+contract.
+
+The analysis reports:
+
+- feature-level SHAP rank dispersion across replicates;
+- feature sign stability across replicates;
+- pairwise top-3 and top-5 SHAP overlap;
+- driver-family stability;
+- Spearman rank agreement among grouped logistic coefficients, spatial
+  held-out permutation importance, and global SHAP;
+- top-k overlap among interpretation methods.
+
+Agreement is treated as supporting evidence of interpretive robustness, not as
+proof of causality. Disagreement is retained as scientific information rather
+than normalized away.
