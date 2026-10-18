@@ -156,3 +156,17 @@ lithology is one-hot encoded.
 
 SHAP is intentionally deferred to Phase C so dependency changes do not occur
 before deterministic model reconstruction has been demonstrated.
+
+## Phase C - Global explainability
+
+Phase C adds spatial held-out permutation importance and OOS-aware global SHAP
+without changing the frozen LABORATORY 05 model or opening the hidden oracle.
+
+Permutation importance uses the original nine Feature Set A variables on the
+same spatial validation design. SHAP explains only candidate cells that were
+out of sample for each operational background-replicate model.
+
+SHAP values are evaluated in Logistic Regression log-odds space and must pass
+a numerical additivity check. Coefficients, permutation importance, and SHAP
+are treated as complementary evidence because correlated predictors can share
+or redistribute attribution. None of these methods is interpreted causally.

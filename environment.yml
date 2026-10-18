@@ -32,5 +32,9 @@ dependencies:
   - scipy=1.18.*
   - scikit-learn=1.9.*
 
+  # Explainability
+  - pip:
+      - shap==0.53.0
+
   # Testing
   - pytest=9.1.*
