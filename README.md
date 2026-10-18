@@ -52,7 +52,7 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 | LABORATORY 03 | [Spatial Cross-Validation](labs/lab03_spatial_cross_validation/README.md) | Completed |
 | LABORATORY 04 | [Geochemical Compositional Data Analysis](labs/lab04_geochemical_coda/README.md) | Completed |
 | LABORATORY 05 | [Mineral Prospectivity Mapping](labs/lab05_mineral_prospectivity/README.md) | Completed |
-| LABORATORY 06 | Explainable GeoAI | Planned |
+| LABORATORY 06 | [Explainable GeoAI](labs/lab06_explainable_geoai/README.md) | Completed |
 | LABORATORY 07 | Uncertainty Quantification | Planned |
 | LABORATORY 08 | Remote Sensing | Planned |
 | LABORATORY 09 | Deep Learning for GeoAI | Planned |

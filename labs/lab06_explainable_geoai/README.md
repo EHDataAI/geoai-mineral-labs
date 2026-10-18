@@ -1,6 +1,6 @@
 # LABORATORY 06 - Explainable GeoAI
 
-**Status: Phase A - Contract and feasibility audit**
+**Status: Completed - Phase F executed notebook and publication QA**
 
 ## Purpose
 
@@ -239,3 +239,37 @@ A passing automated QA result does not authorize immediate merge. Phase F also
 requires a manual visual review of figure composition, text clipping, legends,
 table rendering, notebook narrative flow, and GitHub rendering before the
 laboratory is marked complete.
+
+## Phase F completion and publication QA
+
+Phase F completes the public explainability workflow by assembling the
+validated Phase A-E evidence into the executed
+`06_explainable_geoai.ipynb` notebook.
+
+Publication QA for the executed notebook records:
+
+- 16 code cells;
+- 14 Markdown cells;
+- 10 embedded PNG outputs;
+- zero notebook error outputs;
+- 23 targeted LABORATORY 06 tests passing;
+- 186 repository regression tests passing;
+- pre-commit validation passing;
+- Gitleaks secret scanning passing;
+- no model reselection;
+- no hidden-oracle loading during explanation construction.
+
+The final notebook preserves the frozen LABORATORY 05 operational contract.
+Global, local, spatial, and stability explanations are descriptive
+interpretation evidence rather than causal claims. Prospectivity scores remain
+ranking scores and are not interpreted as calibrated deposit probabilities.
+
+### Viewer note
+
+The embedded PNG artifacts were independently extracted and verified as
+correct. In the local VS Code environment, the
+`ms-toolsai.jupyter-renderers@1.3.0` extension produced a display-only
+rendering defect affecting figure margins and legend placement. Disabling that
+extension restored the correct notebook presentation. This is an editor/viewer
+issue and does not alter the notebook outputs, scientific results, or committed
+artifacts.
