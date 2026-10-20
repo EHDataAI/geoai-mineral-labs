@@ -1,0 +1,85 @@
+{
+  "frozen_model": {
+    "feature_columns": [
+      "lithology",
+      "distance_to_intrusive_m",
+      "intrusive_affinity",
+      "distance_to_fault_m",
+      "distance_to_fault_intersection_m",
+      "distance_to_contact_m",
+      "magnetic_anomaly",
+      "gravity_anomaly",
+      "alteration_index"
+    ],
+    "feature_set": "A",
+    "model": "logistic_regression",
+    "model_reselected": false
+  },
+  "gates": {
+    "CANDIDATE_POPULATION": "PASS",
+    "FEATURE_SET_A_CONTRACT": "PASS",
+    "LAB05_FROZEN_MODEL": "PASS",
+    "LAB06_RECONSTRUCTION": "PASS",
+    "LAB07_PHASE_A": "READY",
+    "OOS_ENSEMBLE_CONTRACT": "PASS",
+    "ORACLE_ISOLATION": "PASS",
+    "SCORE_SEMANTICS": "PASS",
+    "UNCERTAINTY_INPUT_CONTRACT": "PASS"
+  },
+  "lab06_crosscheck": {
+    "absolute_tolerance": 1e-12,
+    "explanation_stability_status": "PASS",
+    "maximum_observed_difference": 4.547473508864641e-13,
+    "reconstruction_status": "PASS",
+    "spatial_explainability_status": "PASS"
+  },
+  "laboratory": "LABORATORY 07",
+  "oracle_boundary": {
+    "forbidden_columns_present": [],
+    "oracle_artifacts_read": [],
+    "oracle_loaded": false,
+    "oracle_used": false
+  },
+  "phase": "A",
+  "ready_for_phase_b": true,
+  "schema_version": "1.0.0",
+  "source_files_read": [
+    "labs/lab05_mineral_prospectivity/prospectivity_contract.json",
+    "labs/lab05_mineral_prospectivity/results/prospectivity_model_manifest_oos.json",
+    "labs/lab05_mineral_prospectivity/results/prospectivity_scores_oos.csv",
+    "labs/lab06_explainable_geoai/results/model_reconstruction_manifest.json",
+    "labs/lab06_explainable_geoai/results/explanation_stability_manifest.json",
+    "labs/lab06_explainable_geoai/results/spatial_explainability_manifest.json"
+  ],
+  "source_sha256": {
+    "lab05_contract": "14e5fd245b1556969ff07da7ffa93b81029b6341a5332768cca6e4d2e53355c3",
+    "lab05_model": "b76a2d87bd151fc65131cb4813b6073175c476e549581f4d1ee7c44169dac270",
+    "lab05_scores": "8fc8012c30c07d0bbe70355b53aa65762188f04385db4e8fcb50874e295b4384",
+    "lab06_reconstruction": "737dac948252b21cf5396ac3400447dd7d14f00c18a4cda9b252c35550f98e4f",
+    "lab06_spatial": "910e665da9133f45d3acdc6dfa1bd6c0aa94624db82a905e728c8391b216e03a",
+    "lab06_stability": "c9ea20d2a6096a0c6668e9491940d296086336033e36c0c9f76628a83b9a7029"
+  },
+  "status": "PASS",
+  "uncertainty_input": {
+    "background_replicates": 10,
+    "candidate_rows": 6300,
+    "frequency_denominator": "cell_specific_oos_model_count",
+    "oos_candidates_per_replicate": 5800,
+    "oos_model_count_max": 10,
+    "oos_model_count_min": 4,
+    "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+    "uncertainty_fields": [
+      "prospectivity_score_oos_mean",
+      "prospectivity_score_oos_median",
+      "prospectivity_score_oos_std",
+      "prospectivity_score_oos_p25",
+      "prospectivity_score_oos_p75",
+      "prospectivity_score_oos_iqr",
+      "oos_replicate_rank_mean",
+      "oos_replicate_rank_std",
+      "oos_top_1pct_frequency",
+      "oos_top_5pct_frequency",
+      "oos_top_10pct_frequency"
+    ]
+  }
+}
