@@ -1,0 +1,49 @@
+{
+  "artifact_rows": 6400,
+  "background_replicates": 10,
+  "candidate_rows": 6300,
+  "derived_fields": [
+    "oos_support_fraction",
+    "score_mean_median_abs_gap",
+    "score_std_percentile",
+    "score_iqr_percentile"
+  ],
+  "gates": {
+    "CANDIDATE_POPULATION": "PASS",
+    "LAB07_PHASE_B": "PASS",
+    "ORACLE_ISOLATION": "PASS",
+    "PHASE_A_CONTRACT": "PASS",
+    "SCORE_DISPERSION": "PASS",
+    "SUPPORT_ACCOUNTING": "PASS"
+  },
+  "known_positive_rows_excluded": 100,
+  "laboratory": "LABORATORY 07",
+  "oracle_loaded": false,
+  "oracle_used": false,
+  "output_sha256": {
+    "score_uncertainty_csv": "7d1283dd741188ecf1d888e6442b265b247cde9ebc74bda7941409242c3dfd9a"
+  },
+  "phase": "B",
+  "rank_uncertainty_in_scope": false,
+  "ready_for_phase_c": true,
+  "schema_version": "1.0.0",
+  "score_dispersion": {
+    "iqr_maximum": 0.1533758420364961,
+    "iqr_median": 0.0111816698916245,
+    "std_maximum": 0.1058860065027784,
+    "std_median": 0.01132686527251635
+  },
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "source_sha256": {
+    "lab05_scores": "8fc8012c30c07d0bbe70355b53aa65762188f04385db4e8fcb50874e295b4384",
+    "phase_a_manifest": "6a027cb69735568c3960f83a3da5927c21228042494ebe85b79647b856245784"
+  },
+  "status": "PASS",
+  "support": {
+    "maximum": 10,
+    "mean": 9.206349206349206,
+    "minimum": 4
+  },
+  "top_k_uncertainty_in_scope": false,
+  "uncertainty_scope": "candidate_level_oos_score_uncertainty"
+}
