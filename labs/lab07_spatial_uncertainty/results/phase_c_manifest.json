@@ -1,0 +1,77 @@
+{
+  "artifact_rows": 6400,
+  "background_replicates": 10,
+  "candidate_rank_scale": "aggregate_candidate_1_to_6300",
+  "candidate_rows": 6300,
+  "frequency_denominator": "cell_specific_oos_model_count",
+  "gates": {
+    "CANDIDATE_POPULATION": "PASS",
+    "CANONICAL_CROSSCHECK": "PASS",
+    "FROZEN_MODEL": "PASS",
+    "FULL_REGRESSION": "PASS",
+    "GITLEAKS": "PASS",
+    "LAB07_PHASE_C": "PASS",
+    "NORMALIZED_PRIORITY": "PASS",
+    "ORACLE_ISOLATION": "PASS",
+    "PHASE_A_B_CONTRACT": "PASS",
+    "PRE_COMMIT": "PASS",
+    "RANK_DISPERSION": "PASS",
+    "RANK_MATRIX": "PASS",
+    "RUFF": "PASS",
+    "TARGETED_TESTS": "PASS",
+    "TOP_K_ACCOUNTING": "PASS"
+  },
+  "interpretation_limitations": [
+    "Overlapping replicate training sets are not independent trials.",
+    "Each replicate ranks a changing eligible set of 5800 candidates.",
+    "Candidate-specific OOS support is only 4 to 10 observations.",
+    "Top-k frequencies and normalized priorities are not probabilities.",
+    "Nine original covariates do not imply nine effective coefficients."
+  ],
+  "known_positive_rows_excluded": 100,
+  "laboratory": "LABORATORY 07",
+  "oos_candidates_per_replicate": 5800,
+  "oracle_loaded": false,
+  "oracle_used": false,
+  "output_sha256": {
+    "rank_stability_csv": "514bea3b479dbaa490cbb5f1733e95c08f4b663a6760589251313404c89f38a6"
+  },
+  "output_sha256_lf": {
+    "rank_stability_csv": "514bea3b479dbaa490cbb5f1733e95c08f4b663a6760589251313404c89f38a6"
+  },
+  "phase": "C",
+  "priority_formula": "1-(replicate_oos_rank-1)/5799",
+  "qa": {
+    "full_regression_tests": 217,
+    "junit_evidence_location": "outside_repository",
+    "security_scan_scope": "git_history_and_worktree",
+    "status": "PASS",
+    "targeted_tests": 17
+  },
+  "rank_quantile_method": "linear",
+  "rank_scale": "replicate_oos_1_to_5800",
+  "rank_std_ddof": 1,
+  "rank_uncertainty_scope": "candidate_level_conditional_oos_rank_dispersion",
+  "ready_for_phase_d": true,
+  "schema_version": "1.0.0",
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "source_sha256": {
+    "lab05_evidence": "89243be166ed7fe32a4109eaf762ef938292a6d154cfdd3bbef84736eba36892",
+    "lab05_rank_reconstruction_code": "879b28a9ed9a1189f201f84c06b80aaba0912937ccff823888a65264533e0486",
+    "lab05_scores": "8fc8012c30c07d0bbe70355b53aa65762188f04385db4e8fcb50874e295b4384",
+    "phase_a_manifest": "6a027cb69735568c3960f83a3da5927c21228042494ebe85b79647b856245784",
+    "phase_b_manifest": "5c231baa556843aa3cc53be622b9cfde85550773c65e7d363e992183bd66005e"
+  },
+  "source_sha256_lf": {
+    "lab05_evidence": "89243be166ed7fe32a4109eaf762ef938292a6d154cfdd3bbef84736eba36892",
+    "lab05_rank_reconstruction_code": "879b28a9ed9a1189f201f84c06b80aaba0912937ccff823888a65264533e0486",
+    "lab05_scores": "baced696359231245107ea756be873d39e20c7d83c90af27f92c2a4cf777d95e",
+    "phase_a_manifest": "6a027cb69735568c3960f83a3da5927c21228042494ebe85b79647b856245784",
+    "phase_b_manifest": "5c231baa556843aa3cc53be622b9cfde85550773c65e7d363e992183bd66005e"
+  },
+  "status": "PASS",
+  "top10_replicate_count": 580,
+  "top1_replicate_count": 58,
+  "top5_replicate_count": 290,
+  "top_k_stability_scope": "candidate_level_conditional_oos_top_k_frequency"
+}
