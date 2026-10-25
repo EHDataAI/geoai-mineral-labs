@@ -40,6 +40,16 @@ jobs:
           python -m pip install -e '.[ci]'
           python -m pip check
 
+      - name: Build and verify LAB05 evidence
+        shell: bash
+        run: |
+          python labs/lab05_mineral_prospectivity/05c_build_evidence_layers.py
+          sha256sum --check <<'LAB05_SHA256'
+          89243be166ed7fe32a4109eaf762ef938292a6d154cfdd3bbef84736eba36892  labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv
+          b57ec76c5c6fbc129e2ddd616ead6bbb3ec811ede5e4cea61d497a2e9ea8801b  labs/lab05_mineral_prospectivity/results/evidence_manifest.json
+          7e38202a8048fb5aae3e863140fcce33b816aea016785ec2fc43cfd001299ccb  labs/lab05_mineral_prospectivity/results/geochemistry_diagnostics.json
+          LAB05_SHA256
+
       - name: Ruff critical rules - all files
         run: |
           python -m ruff check --isolated \

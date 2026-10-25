@@ -7,6 +7,10 @@
 * text=auto
 .gitattributes text eol=lf
 
+# Frozen LAB05 score input: preserve historical raw bytes across platforms.
+# Git stores normalized LF; the working-tree checkout requires CRLF.
+labs/lab05_mineral_prospectivity/results/prospectivity_scores_oos.csv text eol=crlf
+
 # Source code
 *.py      text eol=lf
 *.ipynb   text eol=lf
