@@ -44,6 +44,11 @@ jobs:
         shell: bash
         run: |
           python labs/lab05_mineral_prospectivity/05c_build_evidence_layers.py
+          echo LAB05_DIAGNOSTIC_BEGIN
+          sha256sum labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv
+          git ls-files --eol -- labs/lab05_mineral_prospectivity/data/synthetic_mineral_system.csv
+          python -c 'import sys, platform, numpy as np, pandas as pd; print("RUNNER_PYTHON=" + sys.version.split()[0]); print("RUNNER_PLATFORM=" + platform.platform()); print("RUNNER_NUMPY=" + np.__version__); print("RUNNER_PANDAS=" + pd.__version__); np.show_runtime()'
+          python -c 'from pathlib import Path; b = Path("labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv").read_bytes(); print("OUTPUT_BYTES=", len(b), "LF=", b.count(bytes([10])), "CRLF=", b.count(bytes([13, 10])))'
           sha256sum --check <<'LAB05_SHA256'
           89243be166ed7fe32a4109eaf762ef938292a6d154cfdd3bbef84736eba36892  labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv
           b57ec76c5c6fbc129e2ddd616ead6bbb3ec811ede5e4cea61d497a2e9ea8801b  labs/lab05_mineral_prospectivity/results/evidence_manifest.json
