@@ -1,0 +1,98 @@
+name: GeoAI Python CI
+
+"on":
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: geoai-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONNOUSERSITE: "1"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[ci]'
+          python -m pip check
+
+      - name: Build and verify LAB05 evidence
+        shell: bash
+        run: |
+          python labs/lab05_mineral_prospectivity/05c_build_evidence_layers.py
+          echo LAB05_DIAGNOSTIC_BEGIN
+          sha256sum labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv
+          git ls-files --eol -- labs/lab05_mineral_prospectivity/data/synthetic_mineral_system.csv
+          python -c 'import sys, platform, numpy as np, pandas as pd; print("RUNNER_PYTHON=" + sys.version.split()[0]); print("RUNNER_PLATFORM=" + platform.platform()); print("RUNNER_NUMPY=" + np.__version__); print("RUNNER_PANDAS=" + pd.__version__); np.show_runtime()'
+          python -c 'from pathlib import Path; b = Path("labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv").read_bytes(); print("OUTPUT_BYTES=", len(b), "LF=", b.count(bytes([10])), "CRLF=", b.count(bytes([13, 10])))'
+          sha256sum --check <<'LAB05_SHA256'
+          89243be166ed7fe32a4109eaf762ef938292a6d154cfdd3bbef84736eba36892  labs/lab05_mineral_prospectivity/data/prospectivity_evidence.csv
+          b57ec76c5c6fbc129e2ddd616ead6bbb3ec811ede5e4cea61d497a2e9ea8801b  labs/lab05_mineral_prospectivity/results/evidence_manifest.json
+          7e38202a8048fb5aae3e863140fcce33b816aea016785ec2fc43cfd001299ccb  labs/lab05_mineral_prospectivity/results/geochemistry_diagnostics.json
+          LAB05_SHA256
+
+      - name: Ruff critical rules - all files
+        run: |
+          python -m ruff check --isolated \
+            --select E4,E7,E9,F63,F7,F82 \
+            --ignore E401,E402 .
+
+      - name: Ruff full - changed Python and notebooks
+        shell: bash
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            DIFF_BASE="HEAD^1"
+          else
+            DIFF_BASE="$BEFORE_SHA"
+          fi
+          git diff --name-only -z --diff-filter=ACMR \
+            "$DIFF_BASE" HEAD -- '*.py' '*.ipynb' \
+            > "$RUNNER_TEMP/changed-python.z"
+          if [[ -s "$RUNNER_TEMP/changed-python.z" ]]; then
+            xargs -0 -r python -m ruff check --isolated \
+              --select E4,E7,E9,F,I,RUF,TRY004,ISC,PIE,UP -- \
+              < "$RUNNER_TEMP/changed-python.z"
+          fi
+
+      - name: Pytest with JUnit
+        env:
+          PYTHONPATH: ${{ github.workspace }}/labs/lab05_mineral_prospectivity:${{ github.workspace }}/labs/lab04_geochemical_coda
+        run: |
+          mkdir -p "$RUNNER_TEMP/geoai-ci"
+          python -m pytest -q -p no:cacheprovider \
+            --junitxml="$RUNNER_TEMP/geoai-ci/pytest.xml"
+
+      - name: Publish JUnit artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: geoai-pytest-junit
+          path: ${{ runner.temp }}/geoai-ci/pytest.xml
+          if-no-files-found: warn
+          retention-days: 7

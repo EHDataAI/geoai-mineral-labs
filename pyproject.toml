@@ -9,7 +9,27 @@ version = "0.2.0"
 description = "Reproducible GeoAI laboratories for mineral exploration."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "geopandas==1.1.4",
+    "matplotlib==3.11.2",
+    "numpy==2.5.3",
+    "pandas==3.0.6",
+    "pyproj==3.8.0",
+    "scikit-learn==1.9.1",
+    "scipy==1.18.1",
+    "shapely==2.1.2",
+]
+
+[project.optional-dependencies]
+ci = [
+    "ipykernel>=6.29,<8",
+    "jupyter_client==8.10.0",
+    "nbclient==0.10.4",
+    "nbformat==5.11.1",
+    "pytest==9.1.1",
+    "ruff==0.17.1",
+    "shap==0.53.0",
+]
 
 
 [tool.setuptools.packages.find]
