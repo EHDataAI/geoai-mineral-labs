@@ -1,0 +1,183 @@
+{
+  "background_replicates": 10,
+  "candidate_rows": 6300,
+  "descriptive_results": {
+    "cutoff_sensitivity_joint_high_counts": {
+      "q70": 270,
+      "q75": 134,
+      "q80": 55
+    },
+    "moran_i_descriptive": {
+      "priority_std_queen": 0.7306656460587905,
+      "priority_std_rook": 0.7404099193078599,
+      "score_std_queen": 0.8866358532539439,
+      "score_std_rook": 0.8961153285376053
+    },
+    "oos_support_by_regime_q75": {
+      "joint_high": {
+        "10": 62,
+        "4": 0,
+        "5": 0,
+        "6": 1,
+        "7": 5,
+        "8": 20,
+        "9": 46
+      },
+      "neither_high": {
+        "10": 1444,
+        "4": 0,
+        "5": 2,
+        "6": 22,
+        "7": 105,
+        "8": 512,
+        "9": 1197
+      },
+      "priority_high_only": {
+        "10": 670,
+        "4": 1,
+        "5": 1,
+        "6": 8,
+        "7": 46,
+        "8": 201,
+        "9": 515
+      },
+      "score_high_only": {
+        "10": 617,
+        "4": 0,
+        "5": 1,
+        "6": 1,
+        "7": 48,
+        "8": 235,
+        "9": 540
+      }
+    },
+    "regime_q75_counts": {
+      "joint_high": 134,
+      "neither_high": 3282,
+      "priority_high_only": 1442,
+      "score_high_only": 1442
+    },
+    "rook_regime_q75_component_counts": {
+      "joint_high": 100,
+      "neither_high": 195,
+      "priority_high_only": 298,
+      "score_high_only": 98
+    }
+  },
+  "gates": {
+    "CANDIDATE_IDENTITY": "PASS",
+    "FULL_REGRESSION": "PASS",
+    "GITLEAKS": "PASS",
+    "LAB07_PHASE_D": "PASS",
+    "MASKED_GRID_TOPOLOGY": "PASS",
+    "NEIGHBORHOOD_ACCOUNTING": "PASS",
+    "ORACLE_ISOLATION": "PASS",
+    "PRE_COMMIT": "PASS",
+    "RUFF": "PASS",
+    "SCORE_SEMANTICS": "PASS",
+    "TARGETED_TESTS": "PASS",
+    "UPSTREAM_CONTRACT": "PASS"
+  },
+  "interpretation_limitations": [
+    "Regimes use sample-relative percentiles, not physical risk thresholds.",
+    "Moran I values are descriptive; no permutation p-values are claimed.",
+    "Neighborhood averages are not new model predictions.",
+    "Neighbor counts vary at boundaries and masked cells remain missing.",
+    "Overlapping OOS training replicates are not independent trials.",
+    "OOS support is 4-10; no confidence intervals are claimed.",
+    "Priorities and top-k frequencies are not deposit probabilities."
+  ],
+  "laboratory": "LABORATORY 07",
+  "masked_positions": 100,
+  "oracle_loaded": false,
+  "oracle_used": false,
+  "output_sha256_lf": {
+    "spatial_uncertainty_regimes_csv": "40495947c641fad569008e747625aac3c191feead96e1ed5e9c9c545038818a5"
+  },
+  "phase": "D",
+  "phase_e_authorization": "CLOSED",
+  "qa": {
+    "evidence_runs": [
+      "LAB07_D1_R3",
+      "LAB07_D2_R3",
+      "LAB07_D2_R4",
+      "LAB07_D3_R3",
+      "LAB07_D4_R1",
+      "LAB07_D4_R2",
+      "LAB07_D4_R3_R1",
+      "LAB07_D5_R1_R1"
+    ],
+    "full_regression_tests": 242,
+    "gitleaks": "PASS",
+    "independent_scientific_audit": "PASS",
+    "numeric_round_trip_reconstruction": "PASS",
+    "pre_commit": "PASS",
+    "pre_commit_hooks_passed": 10,
+    "review_date": "2026-11-07",
+    "ruff": "PASS",
+    "spatial_topology_reconstruction": "PASS",
+    "status": "PASS",
+    "targeted_tests": 25
+  },
+  "ready_for_phase_e": false,
+  "regime_policy": {
+    "component_minimum_size_filter": null,
+    "dimensions": [
+      "score_oos_std",
+      "oos_priority_std"
+    ],
+    "primary": "q75",
+    "sensitivity": {
+      "q70": 0.7,
+      "q75": 0.75,
+      "q80": 0.8
+    },
+    "support_used_as_regime_weight": false,
+    "type": "descriptive_joint_percentile_partition"
+  },
+  "schema_version": "1.0.0",
+  "scope": "descriptive_spatial_structure_of_conditional_oos_uncertainty",
+  "score_semantics": "prospectivity_score_not_calibrated_deposit_probability",
+  "source_sha256_lf": {
+    "phase_a_manifest": "6a027cb69735568c3960f83a3da5927c21228042494ebe85b79647b856245784",
+    "phase_b_manifest": "5c231baa556843aa3cc53be622b9cfde85550773c65e7d363e992183bd66005e",
+    "phase_c_manifest": "315a5f68a6d51f08768500a024d819461f55acd369b72a05324fb1beebd60a0e",
+    "phase_d_builder_code": "64cca93ef3e2988687ded3fe36fe1f39ae775ec08a64890fa0f039b3b46f2f65",
+    "rank_stability_csv": "514bea3b479dbaa490cbb5f1733e95c08f4b663a6760589251313404c89f38a6",
+    "score_uncertainty_csv": "7d1283dd741188ecf1d888e6442b265b247cde9ebc74bda7941409242c3dfd9a"
+  },
+  "spatial_topology": {
+    "grid_axes": [
+      80,
+      80
+    ],
+    "grid_step_coordinate_units": 1000,
+    "masked_positions": 100,
+    "observed_candidates": 6300,
+    "queen_degree_histogram": {
+      "3": 4,
+      "4": 9,
+      "5": 316,
+      "6": 75,
+      "7": 558,
+      "8": 5338
+    },
+    "rook_connected_component_sizes": [
+      6300
+    ],
+    "rook_degree_histogram": {
+      "1": 1,
+      "2": 30,
+      "3": 637,
+      "4": 5632
+    }
+  },
+  "spatial_weights": {
+    "masked_cells_interpolated": false,
+    "primary": "rook_cell_adjacency",
+    "self_neighbors": false,
+    "sensitivity": "queen_cell_adjacency",
+    "weights": "row_standardized"
+  },
+  "status": "PASS"
+}

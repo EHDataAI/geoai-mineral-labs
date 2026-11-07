@@ -10,6 +10,7 @@ description = "Reproducible GeoAI laboratories for mineral exploration."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "defusedxml==0.7.1",
     "geopandas==1.1.4",
     "matplotlib==3.11.2",
     "numpy==2.5.3",

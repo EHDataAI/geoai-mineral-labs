@@ -10,11 +10,11 @@ import hashlib
 import importlib.util
 import json
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from defusedxml import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 LAB05 = ROOT / "labs" / "lab05_mineral_prospectivity"
@@ -366,7 +366,7 @@ def main() -> None:
 
 def read_junit(path: Path) -> int:
     require(path.is_file(), f"JUnit evidence missing: {path.name}")
-    root = ET.parse(path).getroot()
+    root = ET.parse(path, forbid_dtd=True).getroot()
     suites = root.findall(".//testsuite")
     if root.tag == "testsuite":
         suites = [root]
