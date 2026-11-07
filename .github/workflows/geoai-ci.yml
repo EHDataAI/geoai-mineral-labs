@@ -42,6 +42,8 @@ jobs:
 
       - name: Build and verify LAB05 evidence
         shell: bash
+        env:
+          OPENBLAS_CORETYPE: Haswell
         run: |
           python labs/lab05_mineral_prospectivity/05c_build_evidence_layers.py
           echo LAB05_DIAGNOSTIC_BEGIN
