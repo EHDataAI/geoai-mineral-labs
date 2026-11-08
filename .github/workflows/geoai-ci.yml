@@ -44,6 +44,7 @@ jobs:
         shell: bash
         env:
           OPENBLAS_CORETYPE: Haswell
+          NPY_DISABLE_CPU_FEATURES: "X86_V4,AVX512_ICL,AVX512_SPR"
         run: |
           python labs/lab05_mineral_prospectivity/05c_build_evidence_layers.py
           echo LAB05_DIAGNOSTIC_BEGIN
