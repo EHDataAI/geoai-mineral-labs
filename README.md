@@ -53,10 +53,12 @@ Predictive performance alone is not considered sufficient evidence of a useful g
 | LABORATORY 04 | [Geochemical Compositional Data Analysis](labs/lab04_geochemical_coda/README.md) | Completed |
 | LABORATORY 05 | [Mineral Prospectivity Mapping](labs/lab05_mineral_prospectivity/README.md) | Completed |
 | LABORATORY 06 | [Explainable GeoAI](labs/lab06_explainable_geoai/README.md) | Completed |
-| LABORATORY 07 | Uncertainty Quantification | Planned |
+| LABORATORY 07 | [Spatial Uncertainty Quantification](labs/lab07_spatial_uncertainty/README.md) ([illustrated notebook](labs/lab07_spatial_uncertainty/07_spatial_uncertainty_illustrated.ipynb)) | Phases A-D validated; Phase E gated |
 | LABORATORY 08 | Remote Sensing | Planned |
 | LABORATORY 09 | Deep Learning for GeoAI | Planned |
 | LABORATORY 10 | Graph & Multimodal GeoAI | Planned |
+
+**LAB07 published evidence (Phases A-D):** The [executed illustrated notebook](labs/lab07_spatial_uncertainty/07_spatial_uncertainty_illustrated.ipynb) demonstrates conditional out-of-sample score dispersion, candidate-specific OOS support, and rank/top-5% stability. These are methodological ranking diagnostics, not calibrated probabilities of mineral occurrence. Phase D adds descriptive spatial uncertainty regimes using rook/queen neighborhoods on the observed grid; its independent repository QA passed. Phase E remains gated and unauthorized.
 
 The roadmap may evolve as new datasets, validation requirements, and modelling questions are introduced.
 
@@ -257,13 +259,13 @@ Version `0.2.0` marks the transition from the initial engineering and geospatial
 - final hidden-oracle evaluation;
 - explainable GeoAI with global, local, spatial, and stability analysis.
 
-The project remains pre-1.0 while advanced GeoAI capabilities such as uncertainty quantification, remote sensing, deep learning, and multimodal methods remain on the development roadmap.
+The project remains pre-1.0. LAB07 Phases A-C now provide initial spatial uncertainty diagnostics; later uncertainty phases, remote sensing, deep learning, and multimodal methods remain under development or on the roadmap.
 
 ## Next steps
 
 Planned development includes:
 
-1. Spatial uncertainty quantification.
+1. Preserve LAB07 Phase D reproducibility controls; Phase E requires separate authorization.
 2. Remote sensing integration.
 3. Deep learning for geospatial mineral exploration.
 4. Graph and multimodal GeoAI.
