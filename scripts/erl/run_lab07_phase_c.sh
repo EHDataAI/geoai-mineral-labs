@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Historical one-shot Phase C build/checkpoint: deliberately pinned to
+# pre-publication BASELINE. Do not use as a replay runner at later commits.
+# Current source QA is exercised by GitHub Actions and the regression suite.
 REPO="${LAB07_REPO_OVERRIDE:-/mnt/c/GeoAI/geoai-mineral-labs}"
 BRANCH="feat/lab07-spatial-uncertainty-phase-c"
 BASELINE="aeeb342aa4fb55de7431023df60d767f374a7d2d"

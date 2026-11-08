@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -367,18 +368,110 @@ def main() -> None:
 def read_junit(path: Path) -> int:
     require(path.is_file(), f"JUnit evidence missing: {path.name}")
     root = ET.parse(path, forbid_dtd=True).getroot()
+    require(root.tag in {"testsuite", "testsuites"}, "Invalid JUnit root")
     suites = root.findall(".//testsuite")
     if root.tag == "testsuite":
         suites = [root]
     require(bool(suites), f"Invalid JUnit evidence: {path.name}")
+    require(
+        not any(suite.findall("./testsuite") for suite in suites),
+        f"Unsupported nested JUnit suites: {path.name}",
+    )
+    for suite in suites:
+        cases = suite.findall("./testcase")
+        declared = int(suite.attrib.get("tests", "0"))
+        require(
+            declared == len(cases),
+            f"JUnit case-count mismatch: {path.name}",
+        )
+        require(
+            not any(
+                case.find(tag) is not None
+                for case in cases
+                for tag in ("failure", "error", "skipped")
+            ),
+            f"JUnit case-level failure: {path.name}",
+        )
     counts = {
         name: sum(int(suite.attrib.get(name, "0")) for suite in suites)
         for name in ("tests", "errors", "failures", "skipped")
     }
+    require(counts["tests"] > 0, f"JUnit contains no tests: {path.name}")
     require(counts["errors"] == 0, f"JUnit errors: {path.name}")
     require(counts["failures"] == 0, f"JUnit failures: {path.name}")
     require(counts["skipped"] == 0, f"JUnit skips: {path.name}")
     return counts["tests"]
+
+
+def run_release_qa(evidence_dir: Path) -> None:
+    """Re-execute gates locally; XML files alone are never QA authorization."""
+    evidence_dir = evidence_dir.resolve()
+    require(evidence_dir.is_dir(), "QA evidence directory missing")
+    require(
+        evidence_dir != ROOT and ROOT not in evidence_dir.parents,
+        "QA evidence must be outside the repository",
+    )
+    checks = (
+        (
+            "TARGETED_TESTS",
+            [
+                sys.executable,
+                "-B",
+                "-m",
+                "pytest",
+                "-q",
+                "--override-ini",
+                "addopts=",
+                "-p",
+                "no:cacheprovider",
+                f"--junitxml={evidence_dir / 'pytest_targeted.xml'}",
+                "tests/test_lab07_rank_stability.py",
+            ],
+        ),
+        (
+            "FULL_REGRESSION",
+            [
+                sys.executable,
+                "-B",
+                "-m",
+                "pytest",
+                "-q",
+                "--override-ini",
+                "addopts=",
+                "-p",
+                "no:cacheprovider",
+                f"--junitxml={evidence_dir / 'pytest_full.xml'}",
+            ],
+        ),
+        (
+            "RUFF",
+            [
+                "ruff",
+                "check",
+                "labs/lab07_spatial_uncertainty/07c_build_rank_stability.py",
+                "tests/test_lab07_rank_stability.py",
+            ],
+        ),
+        (
+            "RUFF_FORMAT",
+            [
+                "ruff",
+                "format",
+                "--check",
+                "labs/lab07_spatial_uncertainty/07c_build_rank_stability.py",
+                "tests/test_lab07_rank_stability.py",
+            ],
+        ),
+        ("PRE_COMMIT", ["pre-commit", "run", "--all-files"]),
+        (
+            "GITLEAKS_HISTORY",
+            ["gitleaks", "detect", "--source", ".", "--no-banner", "--redact"],
+        ),
+        ("GITLEAKS_WORKTREE", ["gitleaks", "dir", ".", "--no-banner", "--redact"]),
+    )
+    for gate, command in checks:
+        print(f"LAB07_PHASE_C_REVERIFY={gate}", flush=True)
+        subprocess.run(command, cwd=ROOT, check=True)
 
 
 def finalize(evidence_dir: Path) -> None:
@@ -404,10 +497,20 @@ def finalize(evidence_dir: Path) -> None:
             sha256_lf(path) == manifest["source_sha256_lf"][name],
             f"Source changed after build: {name}",
         )
+    run_release_qa(evidence_dir)
     targeted = read_junit(evidence_dir / "pytest_targeted.xml")
     full = read_junit(evidence_dir / "pytest_full.xml")
     require(targeted == 17, "Targeted test count")
     require(full >= 217, "Full regression coverage")
+    require(
+        sha256_lf(OUTPUT) == manifest["output_sha256_lf"]["rank_stability_csv"],
+        "Output changed during QA",
+    )
+    for name, path in sources.items():
+        require(
+            sha256_lf(path) == manifest["source_sha256_lf"][name],
+            f"Source changed during QA: {name}",
+        )
 
     manifest["qa"] = {
         "status": "PASS",
@@ -415,6 +518,7 @@ def finalize(evidence_dir: Path) -> None:
         "full_regression_tests": full,
         "junit_evidence_location": "outside_repository",
         "security_scan_scope": "git_history_and_worktree",
+        "verification_mode": "in_process_reexecution",
     }
     manifest["status"] = "PASS"
     manifest["ready_for_phase_d"] = True

@@ -6,6 +6,7 @@ import importlib.util
 import json
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 from unittest.mock import patch
 
@@ -283,6 +284,18 @@ class TestIntegrity(unittest.TestCase):
         self.assertEqual(manifest["gates"]["LAB07_PHASE_D"], "PENDING")
         self.assertFalse(manifest["oracle_loaded"])
 
+    def test_finalized_manifest_remains_closed(self) -> None:
+        manifest = json.loads(module.OUTPUT_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["status"], "PASS")
+        self.assertEqual(manifest["qa"]["status"], "PASS")
+        self.assertIs(manifest["ready_for_phase_e"], False)
+        self.assertEqual(manifest["phase_e_authorization"], "CLOSED")
+        self.assertTrue(all(state == "PASS" for state in manifest["gates"].values()))
+        self.assertEqual(
+            manifest["source_sha256_lf"]["phase_d_builder_code"],
+            module.normalized_sha256(SCRIPT),
+        )
+
     def test_exported_regimes_survive_csv_round_trip(self) -> None:
         exported = pd.read_csv(module.OUTPUT_CSV, float_precision="round_trip")
         self.assertEqual(len(exported), module.N_CANDIDATES)
@@ -308,6 +321,46 @@ class TestIntegrity(unittest.TestCase):
             "0.69999999999999996",
         )
         self.assertEqual(row["regime_q70"], "priority_high_only")
+
+
+class TestReleaseGate(unittest.TestCase):
+    def setUp(self) -> None:
+        with patch.object(module, "normalized_sha256", return_value="test-digest"):
+            self.expected = module.build_manifest(
+                synthetic_frame(), {"grid_axes": [3, 3]}, {"moran_i_descriptive": {}}
+            )
+        self.released = deepcopy(self.expected)
+        self.released["status"] = "PASS"
+        self.released["phase_e_authorization"] = "CLOSED"
+        self.released["qa"] = {
+            "status": "PASS",
+            "targeted_tests": 25,
+            "full_regression_tests": 242,
+            "independent_scientific_audit": "PASS",
+        }
+        self.released["gates"] = {key: "PASS" for key in self.expected["gates"]}
+
+    def test_consistent_pending_and_finalized_states_are_accepted(self) -> None:
+        module.validate_existing_manifest(self.expected, self.expected)
+        module.validate_existing_manifest(self.released, self.expected)
+
+    def test_forged_phase_e_permission_is_rejected(self) -> None:
+        damaged = deepcopy(self.released)
+        damaged["ready_for_phase_e"] = True
+        with self.assertRaisesRegex(RuntimeError, "Phase E must remain closed"):
+            module.validate_existing_manifest(damaged, self.expected)
+
+    def test_missing_independent_qa_is_rejected(self) -> None:
+        damaged = deepcopy(self.released)
+        damaged["qa"]["status"] = "PENDING"
+        with self.assertRaisesRegex(RuntimeError, "Released QA status"):
+            module.validate_existing_manifest(damaged, self.expected)
+
+    def test_incomplete_release_gates_are_rejected(self) -> None:
+        damaged = deepcopy(self.released)
+        damaged["gates"]["GITLEAKS"] = "PENDING"
+        with self.assertRaisesRegex(RuntimeError, "Released QA gates"):
+            module.validate_existing_manifest(damaged, self.expected)
 
 
 if __name__ == "__main__":

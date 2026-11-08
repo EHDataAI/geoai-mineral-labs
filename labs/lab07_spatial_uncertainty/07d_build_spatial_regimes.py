@@ -519,6 +519,58 @@ def build_manifest(result: pd.DataFrame, geometry: dict, summary: dict) -> dict:
     }
 
 
+def validate_existing_manifest(previous: dict, expected: dict) -> None:
+    """Preserve the scientific contract and fail closed on release-state drift."""
+    for key in (
+        "schema_version",
+        "laboratory",
+        "phase",
+        "candidate_rows",
+        "masked_positions",
+        "background_replicates",
+        "score_semantics",
+        "scope",
+        "spatial_weights",
+        "regime_policy",
+        "spatial_topology",
+        "descriptive_results",
+        "interpretation_limitations",
+        "oracle_loaded",
+        "oracle_used",
+        "source_sha256_lf",
+        "output_sha256_lf",
+    ):
+        require(previous.get(key) == expected.get(key), f"Existing Phase D {key} drift")
+
+    require(previous.get("ready_for_phase_e") is False, "Phase E must remain closed")
+    require(
+        previous.get("phase_e_authorization", "CLOSED") == "CLOSED",
+        "Phase E authorization changed",
+    )
+    status = previous.get("status")
+    require(status in {"QA_PENDING", "PASS"}, "Phase D status")
+    if status == "QA_PENDING":
+        require(previous.get("gates") == expected["gates"], "Pending QA gate drift")
+        require(
+            previous.get("qa", {}).get("status", "PENDING") == "PENDING",
+            "Pending QA state drift",
+        )
+    else:
+        qa = previous.get("qa", {})
+        require(qa.get("status") == "PASS", "Released QA status missing")
+        require(qa.get("targeted_tests", 0) >= 25, "Released targeted QA missing")
+        require(qa.get("full_regression_tests", 0) >= 242, "Released full QA missing")
+        require(
+            qa.get("independent_scientific_audit") == "PASS",
+            "Released scientific audit missing",
+        )
+        require(
+            set(previous.get("gates", {})) == set(expected["gates"])
+            and all(value == "PASS" for value in previous["gates"].values()),
+            "Released QA gates incomplete",
+        )
+
+
 def main() -> None:
     validate_upstream()
     frame = load_inputs()
@@ -542,24 +594,7 @@ def main() -> None:
     )
     if OUTPUT_MANIFEST.exists():
         previous = read_json(OUTPUT_MANIFEST)
-        for key in (
-            "schema_version",
-            "candidate_rows",
-            "score_semantics",
-            "spatial_weights",
-            "regime_policy",
-            "spatial_topology",
-            "descriptive_results",
-            "interpretation_limitations",
-            "oracle_loaded",
-            "oracle_used",
-            "source_sha256_lf",
-            "output_sha256_lf",
-        ):
-            require(
-                previous.get(key) == manifest.get(key), f"Existing Phase D {key} drift"
-            )
-        require(previous.get("status") in {"QA_PENDING", "PASS"}, "Phase D status")
+        validate_existing_manifest(previous, manifest)
     else:
         with OUTPUT_MANIFEST.open("xb") as handle:
             handle.write(manifest_payload)
